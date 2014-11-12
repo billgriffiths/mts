@@ -1,0 +1,32 @@
+<%= form_for(@test_result) do |f| %>
+  <% if @test_result.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@test_result.errors.count, "error") %> prohibited this test_result from being saved:</h2>
+
+      <ul>
+      <% @test_result.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<p><label for="test_result_name">Answers</label><br/>
+<%= text_field 'test_result', 'answers'  %></p>
+
+<p><label for="test_result_result">Test items</label><br/>
+<%= text_area 'test_result', 'test_items'  %></p>
+
+<p><label for="test_result_description">Score</label><br/>
+<%= text_field 'test_result', 'score'  %></p>
+
+<p><label for="test_result_result">Status</label><br/>
+<%= text_field 'test_result', 'status'  %></p>
+
+<p><label for="test_result_Start time">Score</label><br/>
+<%= text_field 'test_result', 'start_time'  %></p>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,33 @@
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<!--[form:user]-->
+<p><label for="user_first_name">First name</label><br/>
+<%= text_field 'user', 'first_name'  %></p>
+
+<p><label for="user_last_name">Last name</label><br/>
+<%= text_field 'user', 'last_name'  %></p>
+
+<p><label for="user_user_name">User name</label><br/>
+<%= text_field 'user', 'user_name'  %></p>
+
+<p><label for="user_password">Password</label><br/>
+<%= password_field 'user', 'password'  %></p>
+
+<p><label for="user_role">Role</label><br/>
+<%= f.select(:role, User::ROLE_TYPES ) %></p>
+<!--[eoform:user]-->
+
+<p><%= f.submit %></p>
+
+<% end %>

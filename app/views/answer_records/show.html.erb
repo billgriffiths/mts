@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<% for column in AnswerRecord.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @answer_record.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', edit_answer_record_path(@answer_record) %> |
+<%= link_to 'Back', answer_records_path %>

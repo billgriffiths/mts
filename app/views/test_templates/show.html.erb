@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<% for column in TestTemplate.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @test_template.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', edit_test_template_path(@test_template) %> |
+<%= link_to 'Back', test_templates_path %>

@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<% for column in Student.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @student.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', edit_student_path(@student) %> |
+<%= link_to 'Back', students_path %>

@@ -1,0 +1,26 @@
+<%= form_for(@test_template) do |f| %>
+  <% if @test_template.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@test_template.errors.count, "error") %> prohibited this test_template from being saved:</h2>
+
+      <ul>
+      <% @test_template.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<p><label for="test_template_name">Name</label><br/>
+<%= text_field 'test_template', 'name'  %></p>
+
+<p><label for="test_template_template">Template</label><br/>
+<%= text_area 'test_template', 'template'  %></p>
+
+<p><label for="test_template_description">Description</label><br/>
+<%= text_field 'test_template', 'description'  %></p>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
