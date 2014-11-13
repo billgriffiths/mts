@@ -1,0 +1,16 @@
+<h1>Take Test</h1>
+
+<div class="user-form">
+	<%= error_messages_for 'student' %>
+	
+	<fieldset>
+		<legend>Enter Student ID</legend>
+		<% form_tag :action => 'get_test' do %>
+		<p>
+			<label for="student_number">Student ID:</label>
+			<%= text_field_tag (:student_number, "",:size => 10) %>
+		</p>
+		<%= submit_tag "Get Test" %>
+		<% end %>
+	</fieldset>
+</div>

@@ -1,0 +1,60 @@
+<h1>Test Analysis</h1>
+<h3><%= @test.name %></h3>
+<% n = @test_problems.length %>
+<table>
+	<tr><td></td><th colspan = 5>Problem</th></tr>
+	<tr>
+		<th>score</th>
+		<% n.times do |i| %>
+		<th><%= i+1 %></th>
+		<% end %>
+	</tr>
+	<% @test_result_ids.each do |t| %>
+		<tr>
+			<% total = 0 %>
+			<% @frequency[t].each {|f| total += 1 if f.decoded_answer == "A" } %>
+			<td><%= (100.0*total/n).round %>%</td>
+			<% @frequency[t].each do |f| %>
+				<td><%= f.decoded_answer %></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
+<h3>Key:</h3>
+<% i = 0 %>
+<TABLE >
+<% @test_problems.each do |p| %>
+	<% i += 1 %>
+	<% if (i % 2 == 1) %>
+	<TR>
+	<% end -%>
+	<td valign=top>
+	<TABLE >
+		<tr>
+			<td><h4><%= i -%>. </h4></td>
+			<td>
+				<h4><%= p -%></h4>
+				<% parray = p.split(".") %>
+				<% ext = parray.last %>
+				<% name = p[0,p.length-ext.length-1] %>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<TD style="width: 512px; vertical-align: top; text-align: left;" width=512>
+				<% if ext == 'pedr' %>
+				<IMG align=top src="http://math.lanecc.edu/problems/PEmultchoiceimages/<%=URI.encode(name)%>/1,2,3,4" BORDER=1>
+				<% elsif ext == '5jpg' %>
+				<IMG align=top src="http://math.lanecc.edu/problems/5multchoiceimages/<%=URI.encode(name)%>/12345" BORDER=1>
+				<% else %>
+				<IMG align=top src="http://math.lanecc.edu/problems/multchoiceimages/<%=URI.encode(name)%>/1,2,3,4" BORDER=1>
+				<% end %>
+			</TD>
+		</tr>
+	</table>
+	</td>
+	<% if (i % 2 == 0) %>
+	</TR>
+	<% end -%>
+<% end -%>
+</TABLE>

@@ -1,0 +1,27 @@
+<h1>Add test to class</h1>
+
+<div class="user-form">
+	<%= error_messages_for 'course' %>
+	
+	<fieldset>
+		<legend>Choose Test and Class</legend>
+		<% form_tag :action => 'add_test_to_course' do %>
+		<p>
+			<label for="test">Test:</label>
+			<% tests = TestTemplate.find(:all, :order => "name") %>
+			<%= select_tag(:test, options_from_collection_for_select(tests, :id, :name)) %>
+		</p>
+		<p>
+			<label for="course">Class:</label>
+			<% classes = Course.find(:all, :order => "course_name", :order => "class_number") %>
+			<%= select_tag(:course, options_from_collection_for_select(classes, :id, 'title')) %>
+		</p>
+		<%= submit_tag "Add Test to Class", :class => "submit" %>
+		<% end %>
+	</fieldset>
+</div>
+<p>
+	<%= link_to 'Back', :controller => 'course', :action => 'list' %>
+</p>
+
+

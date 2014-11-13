@@ -5,9 +5,21 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   
-  root "test_results#index"
+  root "admin#index"
   
   resources :users, :students, :instructors, :courses, :test_templates, :answer_records, :test_results
+  
+  get "admin/try-test" => "admin#try_test"
+  get "admin/authorize" => "admin#authorize"
+  get "admin/add_student_to_course" => "admin#add_student_to_course"
+  get "admin/get_student_record" => "admin#get_student_record"
+  get "admin/authorize_reentry" => "admin#authorize_reentry"
+  get "admin/logout" => "admin#logout"
+  get "students/get_test" => "students#get_test"
+  get "students/choose_student" => "students#choose_student"
+  get "students/authorize" => "students#authorize"
+  get "test_templates/upload" => "test_templates#upload"
+  get "answer/analyze_answers" => "answer#analyze_answers"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

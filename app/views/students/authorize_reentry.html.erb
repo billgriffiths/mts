@@ -1,0 +1,20 @@
+<% for column in Student.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @student.send(column.name) %>
+</p>
+<% end %>
+
+<% form_tag :action => 'authorize_reentry_test' do %>
+	<label for="test">Authorize Re-entry to Test:</label>
+	<% tests = TestResult.find(:all, :conditions => ["student_id = ?", @student], :order => "start_time desc") %>
+	<% tests.each do |t| %>
+	<p>
+		<%= radio_button_tag :id, tag_value = "#{t.id}" %><%= "#{t.test_template.name} #{t.start_time}" %>
+	</p>
+	<% end %>
+	<p>
+		<label for="time_limit">Time Limit (minutes):</label>
+		<%= text_field_tag :time_limit, 15, :size => 5 %>
+	</p>
+  <%= submit_tag 'Authorize Re-entry' %>
+<% end %>

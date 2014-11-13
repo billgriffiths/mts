@@ -1,0 +1,51 @@
+<h1>Choose Student</h1>
+
+<p>First letter of last name</p>
+
+<% l = "A" %>
+<% 26.times do %>
+	<%= link_to ("#{l}"), {:action => 'choose_student', :letter => l}, :method => :post %>
+	<% l = l.succ %>
+<% end %>
+<p>
+<div class="user-form">
+	<%= error_messages_for 'student' %>
+	
+	<fieldset>
+		<legend>Enter Partial Student Data</legend>
+		<% form_tag :action => 'choose_student' do %>
+		<p>
+			<label for="first_name">First Name:</label>
+			<%= text_field_tag :first_name, "", :size => 40 %>
+		</p>
+		<p>
+			<label for="last_name">Last Name:</label>
+			<%= text_field_tag :last_name, "", :size => 40 %>
+		</p>
+		<p>
+			<label for="student_number">Student Number:</label>
+			<%= text_field_tag :student_number, "", :size => 40 %>
+		</p>
+		<%= submit_tag "List Students", :class => "submit" %>
+		<% end %>
+	</fieldset>
+</div>
+
+<% if @students and not @students.empty? %>
+	<% @students.each do |s| %>
+		<% s.courses.each do |c|%>
+			<% if session[:courses] %>
+				<% if session[:courses].include?(c) %>
+				<p>
+				<%= link_to ("#{s.last_name}, #{s.first_name}, #{s.student_number}, #{c.course_name}"), {:action => "#{session[:student_action]}", :id => s, :course => c}, :method => :post %>
+				</p>
+				<%end %>
+			<% else %>
+				<p>
+				<%= link_to ("#{s.last_name}, #{s.first_name}, #{s.student_number}, #{c.course_name}"), {:action => "#{session[:student_action]}", :id => s, :course => c}, :method => :post %>
+				</p>
+			<% end %>
+		<% end %>
+	<% end %>
+<% end %>
+	

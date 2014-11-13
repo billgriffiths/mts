@@ -1,0 +1,33 @@
+<h1>Add student to course</h1>
+
+<div class="user-form">
+	<%= error_messages_for 'student' %>
+	
+	<fieldset>
+		<legend>Enter Student Data</legend>
+		<% form_for :student do |form| %>
+		<p>
+			<label for="first_name">First Name:</label>
+			<%= form.text_field :first_name, :size => 40 %>
+		</p>
+		<p>
+			<label for="last_name">Last Name:</label>
+			<%= form.text_field :last_name, :size => 40 %>
+		</p>
+		<p>
+			<label for="student_number">Student Number:</label>
+			<%= form.text_field :student_number, :size => 40 %>
+		</p>
+		<p>
+			<label for="course">Course:</label>
+			<% classes = Course.find(:all, :order => "course_name") %>
+			<%= select_tag(:course, options_from_collection_for_select(classes, :id, :course_name)) %>
+		</p>
+		<%= submit_tag "Add student", :class => "submit" %>
+		<% end %>
+	</fieldset>
+</div>
+<p>
+	<%= link_to 'Back', :controller => 'student', :action => 'list' %>
+</p>
+

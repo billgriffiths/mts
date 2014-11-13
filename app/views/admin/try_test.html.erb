@@ -1,0 +1,14 @@
+<div class="user-form">
+	
+	<fieldset>
+		<legend>Choose test</legend>
+		<% form_tag :action => 'try_test' do %>
+		<p>
+			<label for="test">Test:</label>
+			<% tests = TestTemplate.order(name: :asc) %>
+			<%= select_tag :test, options_from_collection_for_select(tests, :id, :name, selected_value = nil)%>
+		</p>
+		<%= submit_tag "Choose Test", :class => "submit" %>
+		<% end %>
+	</fieldset>
+</div>

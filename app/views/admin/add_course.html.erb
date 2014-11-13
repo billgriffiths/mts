@@ -1,0 +1,28 @@
+<h1>Add Class</h1>
+<%= error_messages_for 'course' %>
+
+<div class="user-form">
+	<fieldset>
+		<legend>Enter Class Data</legend>
+		<% form_for :course do |form| %>
+		<p>
+			<label for="course_name">Course Name:</label>
+			<%= form.text_field :course_name, :size => 40 %>
+		</p>
+		<p>
+			<label for="class_number">Course Number:</label>
+			<%= form.text_field :class_number, :size => 40 %>
+		</p>
+		<p>
+			<label for="instructor">Instructor:</label>
+			<% instructors = Instructor.find(:all, :order => "last_name, first_name") %>
+			<%= select_tag(:instructor, options_from_collection_for_select(instructors, "id", "whole_name")) %>
+		</p>
+		<%= submit_tag "Add Class", :class => "submit" %>
+		<% end %>
+	</fieldset>
+</div>
+<p>
+	<%= link_to 'Back', :controller => 'course', :action => 'list' %>
+</p>
+
