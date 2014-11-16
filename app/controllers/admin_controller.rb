@@ -95,12 +95,12 @@ class AdminController < ApplicationController
   #    @student_pages, @students = paginate :students, :per_page => 10
       @students = Student.all
       session[:student_action] = "authorize"
-#      redirect_to(:controller => 'students', :action => 'choose_student')
+      redirect_to(:controller => 'students', :action => 'choose_student')
     end
 
     def authorize_reentry
       session[:student_action] = "authorize_reentry"
-      redirect_to(:controller => 'students', :action => 'choose_student')
+#      redirect_to(:controller => 'students', :action => 'choose_student')
     end
 
     def add_test_to_course

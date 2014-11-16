@@ -9,11 +9,9 @@
 <% end %>
 <p>
 <div class="user-form">
-	<%= error_messages_for 'student' %>
 	
 	<fieldset>
-		<legend>Enter Partial Student Data</legend>
-		<% form_tag :action => 'choose_student' do %>
+		<%= form_tag("choose_student", method: "post") do %>
 		<p>
 			<label for="first_name">First Name:</label>
 			<%= text_field_tag :first_name, "", :size => 40 %>
@@ -26,12 +24,23 @@
 			<label for="student_number">Student Number:</label>
 			<%= text_field_tag :student_number, "", :size => 40 %>
 		</p>
-		<%= submit_tag "List Students", :class => "submit" %>
+		<%= submit_tag "Show matching students", :class => "submit" %>
 		<% end %>
 	</fieldset>
 </div>
 
+<%=params%><br/>
+
+<span class="advice">
+	Clicking on Show Matching Students with all blank fields will give a list of all students
+</span>
+
 <% if @students and not @students.empty? %>
+<% @students.each do |s| %>
+	<br>
+	<%= link_to ("#{s.last_name}, #{s.first_name}, #{s.student_number}"), {:action => "#{session[:student_action]}", :id => s}, :method => :post %>
+	</br>
+<% end %>
 	<% @students.each do |s| %>
 		<% s.courses.each do |c|%>
 			<% if session[:courses] %>

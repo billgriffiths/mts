@@ -1,6 +1,8 @@
 class TestTemplatesController < ApplicationController
   before_action :set_test_template, only: [:show, :edit, :update, :destroy]
 
+layout "admin"
+
   # GET /test_templates
   def index
     @test_templates = TestTemplate.all
@@ -48,8 +50,18 @@ class TestTemplatesController < ApplicationController
   end
 
     def save
-       @test_template = TestTemplate.new(params[:test_template])
-       if @test_template.save
+      @test_template = TestTemplate.new
+      @test_template.description = params[:description]
+ #     @test_template.uploaded_test=params[:uploaded_test]
+       uploaded_io = params[:uploaded_test]
+ #      uploaded_io.original_filename), 'wb') do |file|
+           @test_template.template = uploaded_io.read
+ #     end
+ @test_template.name       = File.basename(uploaded_io.original_filename.gsub(/[^\w._-]/, ''))
+# @test_template.template   = test_field.read
+#      @test_template.name = params[:name]
+
+      if @test_template.save
          redirect_to(:action => 'show', :id => @test_template)
        else
          render(:action => :upload)
@@ -57,14 +69,35 @@ class TestTemplatesController < ApplicationController
     end
 
     def upload
-  #   @test_template = TestTemplate.new
+     @test_template = TestTemplate.new(params[:test_template])
+     @contents = ""
+ if request.post?
+   @test_template = TestTemplate.new
+   @test_template.description = params[:description]
+        uploaded_io = params[:picture]
+        File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'wb') do |file|
+          @contents = uploaded_io.read
+        end
+        @test_template.template = @contents
+        @test_template.name = File.basename(uploaded_io.original_filename.gsub(/[^\w._-]/, ''))
+        if @test_template.save
+           redirect_to(:action => 'show', :id => @test_template)
+         else
+           render(:action => :upload)
+         end
+     end
     end
     
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_test_template
-      @test_template = TestTemplate.find(params[:id])
+    def upload_test
+      @test_template = TestTemplate.new(params[:test_template])
+      redirect_to(:action => 'list')
     end
+
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_test_template
+    @test_template = TestTemplate.find(params[:id])
+  end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def test_template_params

@@ -7,18 +7,23 @@ Rails.application.routes.draw do
   
   root "admin#index"
   
-  resources :users, :students, :instructors, :courses, :test_templates, :answer_records, :test_results
+  match "test_templates/upload" => "test_templates#upload", via: [:get, :post]
+  match "test_templates/save" => "test_templates#save", via: [:get, :post]
+  get "students/get_test" => "students#get_test"
+  match "students/choose_student" => "students#choose_student", via: [:get, :post]
+  match "students/show_record" => "students#show_record", via: [:get, :post]
+  get "students/authorize" => "students#authorize"
+  get "test_templates/" => "test_templates#index"
   
+  resources :users, :instructors, :courses, :answer_records, :test_results, :test_templates, :students
+  
+  get "admin/" => "admin#index"
   get "admin/try-test" => "admin#try_test"
   get "admin/authorize" => "admin#authorize"
   get "admin/add_student_to_course" => "admin#add_student_to_course"
   get "admin/get_student_record" => "admin#get_student_record"
   get "admin/authorize_reentry" => "admin#authorize_reentry"
   get "admin/logout" => "admin#logout"
-  get "students/get_test" => "students#get_test"
-  get "students/choose_student" => "students#choose_student"
-  get "students/authorize" => "students#authorize"
-  get "test_templates/upload" => "test_templates#upload"
   get "answer/analyze_answers" => "answer#analyze_answers"
 
   # Example of regular route:

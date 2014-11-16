@@ -1,6 +1,8 @@
 class StudentsController < ApplicationController
 #  before_action :set_student, only: [:show, :edit, :update, :destroy]
 
+layout "admin"
+
   # GET /students
   def index
     @students = Student.all
@@ -50,7 +52,8 @@ class StudentsController < ApplicationController
     def choose_student
       if request.post?
         if not params[:letter].blank?
-          @students = Student.where(["last_name like ?",params[:letter]+"%"])      
+          @students = Student.where("last_name LIKE 'Schmoe'")
+#          @students = Student.where(["last_name like ?",params[:letter]+"%"])      
         else
           @students = Student.where( ["last_name like ? and first_name like ? and student_number like ?",params[:last_name]+"%",params[:first_name]+"%",params[:student_number]+"%"])
         end

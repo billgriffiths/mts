@@ -6,5 +6,5 @@
 </p>
 <% end %>
 
-<%= link_to 'Edit', edit_test_template_path(@test_template) %> |
+<%= link_to 'Edit', controller: "test_templates", action: "edit", id: @test_template %> |
 <%= link_to 'Back', test_templates_path %>
