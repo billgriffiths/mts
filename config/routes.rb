@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
+  get 'sessionsgem/install'
+
+  get 'sessionsgem/bcrypt'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   
-  root "admin#index"
+#  root "admin#index"
   
   match "test_templates/upload" => "test_templates#upload", via: [:get, :post]
   match "test_templates/save" => "test_templates#save", via: [:get, :post]
@@ -18,12 +22,14 @@ Rails.application.routes.draw do
   resources :users, :instructors, :courses, :answer_records, :test_results, :test_templates, :students
   
   get "admin/" => "admin#index"
+  match "admin/choose_student" => "students#choose_student", via: [:get, :post]
   get "admin/try-test" => "admin#try_test"
   get "admin/authorize" => "admin#authorize"
   get "admin/add_student_to_course" => "admin#add_student_to_course"
   get "admin/get_student_record" => "admin#get_student_record"
   get "admin/authorize_reentry" => "admin#authorize_reentry"
   get "admin/logout" => "admin#logout"
+  get "admin/login" => "admin#login"
   get "answer/analyze_answers" => "answer#analyze_answers"
 
   # Example of regular route:

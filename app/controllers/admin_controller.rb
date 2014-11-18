@@ -8,7 +8,7 @@ class AdminController < ApplicationController
 
     layout "admin"
 
-#    before_filter :authorize_access, :except => :login
+    before_filter :authorize_access, :except => :login
 
     def try_test
       if request.post?
@@ -277,4 +277,6 @@ class AdminController < ApplicationController
       flash[:notice] = "logged out"
       redirect_to(:action  => "login")
     end
- end
+    
+end
+ 

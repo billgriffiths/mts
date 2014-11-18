@@ -13,6 +13,8 @@
 
 class User < ActiveRecord::Base
   
+  has_secure_password
+  
   ROLE_TYPES = [
     # Displayed     stored in db
     ["staff",         "staff"],
