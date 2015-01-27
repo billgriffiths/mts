@@ -20,11 +20,12 @@ class AdminController < ApplicationController
     end
 
     def show_test_try
+      @answers = nil
       @test_list = session[:test_list]
-      @n = @test_list[2].to_i
-      if @answers.nil?
+      n = @test_list.length
+     if @answers.nil?
         @answers = Answers.new
-        @answers.items = Array.new(@n) {|i| (i+1).to_s}
+        @answers.items = Array.new(n) {|i| (i+1).to_s}
       end
       session[:answers] = @answers
     end
@@ -32,7 +33,7 @@ class AdminController < ApplicationController
     def score_try
         require 'open-uri'
         require 'pp'
-        answers = @answers
+#        answers = session[:answers].items
         @test_list = session[:test_list]
         n = @test_list.length
         choices = []
@@ -54,9 +55,14 @@ class AdminController < ApplicationController
             number_choices = keystring.length
             key_answer = choices[keystring.index("1")]
             @key << key_answer
-            temp_answer = answers[i-1].split(" ")
-            temp_answer.delete_at(0)
-            user_answer = temp_answer.to_s
+            # temp_answer = answers[i-1].split(" ")
+            # temp_answer.delete_at(0)
+            # user_answer = temp_answer.to_s
+            if !params[i.to_s].nil?
+              user_answer = params[i.to_s]
+            else
+              user_answer = ""
+            end
             @user_answers << user_answer
             if user_answer == key_answer
               score += 1
@@ -84,6 +90,32 @@ class AdminController < ApplicationController
           end
         end
         @score = score/1.0/i
+    end
+
+    def update_answers
+      byebug
+      if @answers.nil?
+        @answers = Answers.new
+      end
+      answer = params[:answer]
+      @answer = answer
+      answerarray = answer.split(" ")
+      i = answerarray[0].to_i
+      # session[:items][i-1] = answer
+      # respond_to do |format|
+      #   format.html
+      #   format.js
+      # end
+      # @current_answer = answer
+      # @test_results = session[:test_results]
+      # @answers.items = @test_results.answers.split("<*>")
+      # if @test_results.status == 'finished'
+      #   @current_answer = @answers.items[i-1]
+      # else
+        @answers.items[i-1] = answer
+        # @test_results.answers = @answers.items.join("<*>")
+        # @test_results.save
+      # end
     end
 
     def get_student_record
@@ -136,6 +168,48 @@ class AdminController < ApplicationController
           end
         else
           flash[:notice] = "Error, student number is blank. #{params.to_s}"
+        end
+      end
+    end
+
+    def add_students #adding students to a class from a spreadsheet
+      @instructor = session[:instructor] #actually instructor id
+      @classes = session[:courses] #instructor classes
+      @n = session[:n]
+      if request.post? 
+        @course = Course.find(params[:course])
+        @students = []
+        @students_already_enrolled = []
+        @students_errors = []
+        student_data = params["student_data"].gsub("\r","").split("\n")
+        for s in student_data do
+          t = s.split("\t")
+          @student = Student.new
+          @student.student_number = t[0]
+          @student.last_name = t[1]
+          @student.first_name = t[2]
+          if not @student.student_number.blank?
+            @old_student = Student.find_by_student_number(@student.student_number)
+            if @old_student and @old_student.first_name == @student.first_name and @old_student.last_name == @student.last_name
+              if @course.students.detect {|s| s == @old_student}
+#                flash[:notice] = "#{@student.first_name} #{@student.last_name} is already enrolled in #{@course.course_name}"
+                @students_already_enrolled << @student
+              else
+                @student.add_course(@course)
+#                flash[:notice] += "Old student #{@student.first_name} #{@student.last_name} successfully enrolled in #{@course.course_name}"
+                @students  << @student
+              end
+            elsif @student.save
+               @student.add_course(@course)
+               flash[:notice] += "New student #{@student.first_name} #{@student.last_name} successfully enrolled in #{@course.course_name}"
+               @students  << @student
+             else
+               @students_errors  << @student
+             end
+          else
+            @students_errors  << @student
+#            flash[:notice] = "Error, student number is blank. #{@student.first_name} #{@student.last_name}"
+          end
         end
       end
     end
@@ -205,8 +279,25 @@ class AdminController < ApplicationController
 #    verify :method => :post, :only => [ :destroy, :create, :update ],
  #          :redirect_to => { :action => :list }
 
+ def show_class
+   @user = User.find(session[:user_id])
+   if session[:instructor]
+     @instructor = Instructor.find(session[:instructor])
+   end
+   if request.post?
+     @course = Course.find(params[:course])
+     @students = []
+     Student.all.each do |s|
+       if s.courses.include?(@course)
+         @students << s
+       end       
+     end
+   end
+ end
+
     def list_users
-      @user_pages, @users = paginate :users, :per_page => 10
+      @users = User.all
+#      @user_pages, @users = paginate :users, :per_page => 10
     end
 
     def show_user
@@ -220,7 +311,7 @@ class AdminController < ApplicationController
     def create_user
       @user = User.new(params[:user])
       if @user.save
-        flash[:notice] = 'User was successfully created.'
+        flash[:notice] = 'User was successfully added.'
         redirect_to :action => 'list_users'
       else
         render :action => 'new_user'
@@ -249,17 +340,21 @@ class AdminController < ApplicationController
     def login
       session[:user_id] = nil
       if request.post?
-        user = User.authenticate(params[:user_name], params[:password])
-        if user
+        user = User.where(:user_name => params[:user_name]).first
+        if user && user.authenticate(params[:password])
           session[:user_id] = user.id
           if user.role == "instructor"
-            instructor = Instructor.find(:first,:conditions => ["first_name = ? and last_name = ?",user.first_name,user.last_name] )
+            instructor = Instructor.where(["first_name = ? and last_name = ?",user.first_name,user.last_name] ).first
             if instructor
+              session[:instructor] = instructor.id
               session[:courses] = instructor.courses
+              session[:n] = session[:courses].length
             else
+              session[:instructor] = nil
               session[:courses] = []
             end
           else
+            session[:instructor] = nil
             session[:courses] = nil
           end
           url = session[:orginal_url]

@@ -46,39 +46,85 @@
 }
 
 #main {
-  margin-top: 0;
-  margin-left: 11em;
-  padding-top: 1ex;
+  margin-top: 5em;
+  margin-left: 10em;
+  padding-top: 1em;
   padding-left: 2em;
-  padding-bottom: 50em;
+  padding-right: 5em;
+  padding-bottom: 5em;
   background: white;
 }
 
+#banner {
+	position:fixed;
+	margin-left: 0em;
+	width:100%;
+	height:50px;
+	top:0;
+	left:0em;
+	background: #256;
+	padding-top: 20px;
+	padding-bottom: 2px;
+	padding-left: 0em;
+	border-bottom: 4px solid red;
+  	font-family: times, sans-serif;
+	font: 30px/30px "Times New Roman", serif;
+	color: white;
+	text-align: center;
+}
+
+#logo {
+  position:fixed;
+  top:0em;
+  left:0em;
+}
+
+#title {
+	position:fixed;
+	margin-left: 8em;
+	font: small-caps 30px/30px "Times New Roman", serif;
+	color: white;
+	text-align: center;
+	top:0;
+	left:0em;
+	padding-top: 20px;
+}
+
 #side {
-    top:10;
+  top:0;
   font:  sans-serif;
   font-size: small;
-  color: #bfb;
+  color: #236;
   float: left;
   padding-top: 1ex;
   padding-left: 1em;
   padding-bottom: 100em;
   width: 10em;
   background: #666666;
-left: 0;
-position: fixed;
-overflow:auto;
+  left: 0;
+  position: fixed;
+  overflow:auto;
 }
 
-#side a {
-  color: #bfb;
-  font-size: small;
+
+#side a   {
+	color: #236;
+	text-decoration: none;
+	font: sans-serif;
+ 	font-size: small;
+}
+
+#side a:hover   {
+	color: white;
+  	background: #236;
+	text-decoration: none;
+	font: sans-serif;
+ 	font-size: small;
 }
 
 h1 {
   font:  150% sans-serif;
-  color: #226;
-  border-bottom: 3px dotted #77d;
+  color: #337;
 }
 
 /* An entry in the store catalog */
@@ -161,22 +207,27 @@ h1 {
 /* Styles for order form */
 
 .user-form fieldset {
-  background: #efe;
+  background: cornsilk;
 }
 
 .user-form legend {
-  color: #dfd;
-  background: #141;
-  font-family: sans-serif;
-  padding: 0.2em 1em;
+	color: bisque;
+	background: #467;
+	font:  sans-serif;
+	font-size: small;
+	padding: 0.2em 1em;
 }
 
 .user-form label {
   width: 10em;
   float: left;
   text-align: right;
-  margin-right: 0.5em;
+  margin-right: 1em;
   display: block;
+}
+
+.user-form .submit {
+  margin-left: 10.5em;
 }
 
 .user-form .submit {

@@ -1,6 +1,8 @@
 class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :edit, :update, :destroy]
 
+  layout "admin"
+
   # GET /courses
   def index
     @courses = Course.all
@@ -24,12 +26,13 @@ class CoursesController < ApplicationController
   # POST /courses
   def create
     @course = Course.new(course_params)
-
-      if @course.save
-        redirect_to @course, notice: 'Course was successfully created.' 
-      else
-        render :new 
-      end
+    @params = params
+    if request.post? and @course.save
+      @instructor = Instructor.find(params[:course][:instructor])
+      @instructor.add_course(@course)
+      flash[:notice] = "#{@course.course_name} #{@course.class_number} sucessfully added to #{@instructor.first_name} #{@instructor.last_name}"
+    end
+   redirect_to @course
   end
 
   # PATCH/PUT /courses/1

@@ -28,7 +28,7 @@ layout "admin"
     @student = Student.new(student_params)
 
       if @student.save
-         redirect_to @student, notice: 'Student was successfully created.' 
+         redirect_to @student, notice: 'Student was successfully added.' 
       else
          render :new 
       end
@@ -119,7 +119,7 @@ layout "admin"
       if request.post?
         current_time = Time.now.strftime("%Y-%m-%d %H:%M:%S")
         @student = Student.find_by_student_number(params[:student_number])
-        test_result = TestResult.find(:all, :conditions => ["status = 'authorized' and student_id = #{@student.id} and start_time >= '#{current_time}'"])
+        test_result = TestResult.where(["status = 'authorized' and student_id = #{@student.id} and start_time >= '#{current_time}'"])
         if test_result.length == 0
           flash[:notice] = "No tests are currently authorized for student id #{params[:student_number]}."
         else

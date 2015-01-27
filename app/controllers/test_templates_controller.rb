@@ -75,9 +75,9 @@ layout "admin"
    @test_template = TestTemplate.new
    @test_template.description = params[:description]
         uploaded_io = params[:picture]
-        File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'wb') do |file|
+#        File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'wb') do |file|
           @contents = uploaded_io.read
-        end
+#        end
         @test_template.template = @contents
         @test_template.name = File.basename(uploaded_io.original_filename.gsub(/[^\w._-]/, ''))
         if @test_template.save

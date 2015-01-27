@@ -9,3 +9,4 @@ Rails.application.config.assets.version = '1.0'
 
 Rails.application.config.assets.precompile += %w( scaffold.css )
 Rails.application.config.assets.precompile += %w( MRC.css )
+Rails.application.config.assets.precompile += %w( Test.css )

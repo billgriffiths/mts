@@ -1,0 +1,50 @@
+<% if !@students_errors.nil? and @students_errors.any? %>
+<p>
+Errors in adding students 
+<% @students_errors.each do |s| %>
+  <li><%= "#{s.last_name} #{s.first_name} #{s.student_number} #{s.errors.messages[0]}" %></li>
+<% end %>
+</p>
+<%end%>
+
+<% if !@students.nil? and @students.any? %>
+	<p>
+<%= "Students successfully enrolled in #{@course.title}" %>
+<% @students.each do |s| %>
+  <li><%= "#{s.last_name} #{s.first_name}" %></li>
+<% end %>
+</p>
+<%end%>
+
+<% if !@students_already_enrolled.nil? and @students_already_enrolled.any? %>
+<p>
+	<%= "Students already enrolled in #{@course.title}" %>
+<% @students_already_enrolled.each do |s| %>
+  <li><%= "#{s.last_name} #{s.first_name} #{s.student_number}" %></li>
+<% end %>
+</p>
+<%end%>
+</br>
+<h1>Add students to class from spreadsheet</h1>
+
+<div class="user-form">
+	
+	<fieldset>
+		<legend>Enter Student Data</legend>
+		<%= form_tag("add_students", method: "post") do %>
+		<p>
+			<label for="course">Class:</label>
+			<% courses = Course.all %>
+			<%= select_tag :course, options_from_collection_for_select(courses, :id, :title, selected_value = nil)%>
+		</p>
+		<p>
+			Paste spreadsheet student data</p>
+		<p>
+			Student Number, Last Name, First Name:<i> tab delimited</i></p>
+			<%= text_area_tag 'student_data', "", :rows=>10, :style=>'width:600px' %>
+		</p>
+		<%= submit_tag "Add students" %>
+		<% end %>
+	</fieldset>
+</div>
+

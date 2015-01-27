@@ -11,12 +11,18 @@
     </div>
   <% end %>
 
-<p><label for="course_course_name">Name</label><br/>
-<%= text_field 'course', 'course_name'  %></p>
+	<p><label for="course_course_name">Name</label><br/>
+	<%= text_field 'course', 'course_name'  %></p>
 
-<p><label for="course_class_number">Number</label><br/>
-<%= text_field 'course', 'class_number'  %></p>
+	<p><label for="course_class_number">Number</label><br/>
+	<%= text_field 'course', 'class_number'  %></p>
 
+	<p><label for="course_instructor_id">Instructor:</label>
+	<% instructors = Instructor.all %>
+	<% if instructors %>
+		<% instructor=Instructor.find("1")%>
+		<%= instructor.whole_name %>
+	<%end%></p>
   <div class="actions">
     <%= f.submit %>
   </div>

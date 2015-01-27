@@ -1,3 +1,4 @@
+<div class="user-form">
 <%= form_for(@user) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
@@ -11,23 +12,34 @@
     </div>
   <% end %>
 
-<!--[form:user]-->
-<p><label for="user_first_name">First name</label><br/>
-<%= text_field 'user', 'first_name'  %></p>
-
-<p><label for="user_last_name">Last name</label><br/>
-<%= text_field 'user', 'last_name'  %></p>
-
-<p><label for="user_user_name">User name</label><br/>
-<%= text_field 'user', 'user_name'  %></p>
-
-<p><label for="user_password">Password</label><br/>
-<%= password_field 'user', 'password'  %></p>
-
-<p><label for="user_role">Role</label><br/>
-<%= f.select(:role, User::ROLE_TYPES ) %></p>
-<!--[eoform:user]-->
-
-<p><%= f.submit %></p>
-
-<% end %>
+	<fieldset>
+		<legend>Enter User Details</legend>
+		<p>
+			<label for="user_first_name">First name:</label>
+			<%= f.text_field :first_name, :size => 40 %>
+		</p>
+		<p>
+			<label for="user_last_name">Last name:</label>
+			<%= f.text_field :last_name, :size => 40 %>
+		</p>
+		<p>
+			<label for="user_user_name">User Name:</label>
+			<%= f.text_field :user_name, :size => 40 %>
+		</p>
+		<p>
+			<label for="user_password">Password:</label>
+			<%= f.password_field :password, :size => 40 %>
+		</p>
+		<p>
+			<label for="user_password_confirmation">Confirm password:</label>
+			<%= f.password_field:password_confirmation, :size => 40 %>
+		</p>
+		<p>
+			<label for="user_role">Role:</label>
+			<%= f.select(:role, User::ROLE_TYPES ) %>
+		</p>
+		<%= f.submit "Add new user" %>
+	</fieldset>
+	<% end %>
+</div>
+<p/>

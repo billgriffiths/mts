@@ -8,15 +8,6 @@
   </thead>
 
   <tbody>
-    <% @courses.each do |course| %>
-      <tr>
-        <td><%= course.course_name %></td>
-        <td><%= course.class_number %></td>
-        <td><%= link_to 'Show', course %></td>
-        <td><%= link_to 'Edit', edit_course_path(course) %></td>
-        <td><%= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
   <tr>
   <% for column in Course.content_columns %>
     <th><%= column.human_name %></th>
@@ -31,7 +22,8 @@
 	  <% end %>
 		<td>
 		<% if course.instructor %>
-			<%=h "#{course.instructor.last_name}, #{course.instructor.first_name}" %>
+			<% instructor = Instructor.find(course.instructor_id) %>
+			<%=h "#{instructor.last_name}, #{instructor.first_name}" %>
 		<% end %>
 		</td>
 		<td>
@@ -41,7 +33,6 @@
         <td><%= link_to 'Show', course %></td>
         <td><%= link_to 'Edit', edit_course_path(course) %></td>
         <td><%= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-%></td>
 	  </tr>
 	<% end %>
   </tbody>

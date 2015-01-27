@@ -1,0 +1,46 @@
+<h1>Show class</h1>
+
+<div class="user-form">
+	
+	<fieldset>
+		<legend>Choose Class</legend>
+		<%= form_tag("show_class", method: "post") do %>
+		<p>
+			<label for="course">Class:</label>
+			<% if @instructor.nil? %>
+				<% courses = Course.all %>
+			<% else %>
+				<% courses = Course.where("instructor_id = ?",@instructor ) %>
+			<% end %>
+			<% if @course.nil? %>
+			 	<% selected_id = nil %>
+			<% else %>
+			 	<% selected_id = @course.id %>
+			<% end %>
+			<%= select_tag :course, options_from_collection_for_select(courses, :id, :title, selected_value = selected_id)%>
+		</p>
+		<%= submit_tag "Show class" %>
+		<% end %>
+	</fieldset>
+</div>
+<% if @students and @students.any? %>
+	<p>
+	<%= "Students in #{@course.title}" %>
+	<% @students.each do |s| %>
+		<li><%= link_to ("#{s.last_name}, #{s.first_name}, #{s.student_number}"), {:controller => "students", :action => :show_record, :id => s, :course => @course}, :method => :post %></li>
+	<% end %>
+	</p>
+<% elsif @course %>
+	<p>
+	<%= "No students found in #{@course.title}" %>
+	</p>
+<% else %>
+<p>
+	<%= "No course specified." %>
+</p>
+<%end%>
+
+<p>
+	<%= link_to 'Back', :controller => 'admin', :action => 'show_class' %>
+</p>
+

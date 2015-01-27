@@ -1,7 +1,6 @@
 <h1>Add User</h1>
 
 <div class="user-form">
-	<%= error_messages_for 'user' %>
 	
 	<fieldset>
 		<legend>Enter User Details</legend>
@@ -34,7 +33,7 @@
 			<label for="user_role">Role:</label>
 			<%= form.select(:role, User::ROLE_TYPES ) %>
 		</p>
-		<%= submit_tag "Save new user", :class => "submit" %>
+		<%= submit_tag "Add new user" %>
 		<% end %>
 	</fieldset>
 </div>

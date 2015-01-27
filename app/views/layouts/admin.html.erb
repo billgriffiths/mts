@@ -14,41 +14,66 @@
   </div>
   <div id="columns">
     <div id="side">
-        <%= link_to "Try Test",   :controller => 'admin', :action => 'try_test' %>
-        <br/>
+		<p>
+			<legend>Testing</legend>
+		</p>
+		<ul>
+        <li><%= link_to "Try Test",   :controller => 'admin', :action => 'try_test' %>
+        <li/>
         <%= link_to "Authorize",   :controller => 'admin', :action => 'authorize' %>
-        <br/>
+        </li><li>
         <%= link_to "Authorize Re-entry",   :controller => 'admin', :action => 'authorize_reentry' %>
-        <br/>
+        </li><li>
         <%= link_to "Take Test",   :controller => 'students', :action => 'get_test' %>
-        <br/>
-        <%= link_to "Classes",   :controller => 'courses' %>
-        <br/>
+        </li><li>
+</ul>
+ 		<p>
+			<legend>Reports</legend>
+		</p>
+		<ul>
+       <%= link_to "Classes",   :controller => 'courses' %>
+        </li><li>
         <%= link_to "Instructors",   :controller => 'instructors' %>
-        <br/>
+        </li><li>
         <%= link_to "Students",   :controller => 'admin', :action => 'get_student_record' %>
-        <br/>
+        </li><li>
         <%= link_to "Tests",   :controller => 'test_templates' %>
-        <br/>
+        </li>
 	 	<% user = User.find_by_id(session[:user_id]) %>
 	    <% if user && user.role == "administrator" %>
-	        <%= link_to "Users", :controller => 'admin', :action => 'list_users' %>
-	        <br/>
-	        <%= link_to "Add user",   :controller => 'admin', :action => 'add_user' %>
-	        <br/>
-	        <%= link_to "Add instructor",   :controller => 'instructor', :action => 'create' %>
-	       	<br/>
+		<p>
+			<legend>Administration</legend>
+		</p>
+			<li>
+	        <%= link_to "Users", :controller => 'users', :action => 'index' %>
+	        </li><li>
+	        <%= link_to "Add user",   :controller => 'users', :action => 'new' %>
+	        </li><li>
+	        <%= link_to "Add instructor",   :controller => 'instructors', :action => 'new' %>
+	       	</li><li>
 	        <%= link_to "Add class",   :controller => 'admin', :action => 'add_course' %>
-	        <br/>
-		    <%= link_to "Add test to class",   :controller => 'admin', :action => 'add_test_to_course' %>
-		    <br/>
+	        </li>
+			<li>
+	        <%= link_to "Add students",   :controller => 'admin', :action => 'add_students' %>
+	        </li>
 		<% end %>
+		<p>
+			<legend>Instructor</legend>
+		</p>
+		<li>
+        <%= link_to "Class",   :controller => 'admin', :action => 'show_class' %>
+        </li><li>
 	    <%= link_to "Add student",   :controller => 'admin', :action => 'add_student_to_course' %>
-	    <br/>
+	    </li><li>
+	    <%= link_to "Add test to class",   :controller => 'admin', :action => 'add_test_to_course' %>
+	    </li><li>
+	    <%= link_to "Test analysis",   :controller => 'answer', :action => 'analyze_answers' %>
+	    </li><li>
 	    <%= link_to "Upload test",   :controller => 'test_templates', :action => 'upload' %>
-	    <br/>
-	    <%= link_to "data analysis",   :controller => 'answer', :action => 'analyze_answers' %>
-	    <br/>
+	    </li>
+		<p>
+			<legend>Logout</legend>
+		</p>
 	    <%= link_to "Logout",     :controller => 'admin', :action => 'logout' %>
     </div>
     <div id="main">

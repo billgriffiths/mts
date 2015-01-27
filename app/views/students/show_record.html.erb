@@ -23,16 +23,15 @@
     <th>Status</th>
     <th>Start Time</th>
   </tr>
-  <% test_results = TestResult.find(:all, :conditions => ["student_id = ? and course_id = ?", @student.id, @course.id])%>
+  <% test_results = TestResult.where(["student_id = ? and course_id = ?", @student.id, @course.id])%>
 	<% for result in test_results %>
-	<% @test_result = result %>
 		 <tr>
 		   <td><%=TestTemplate.find(result.test_template).name %></td>
-		   <td><%=result.score %></td>
+		   <td><% if !result.score.nil? %> <%=(result.score.to_f*10000).round/100.0 %> <% end %></td>
 		   <td><%=result.status %></td>
 		   <td><%=result.start_time.strftime("%Y-%m-%d %H:%M:%S") %></td>
-		   <td><%=link_to("view results", :controller => 'test_result', :action => 'score') %></td>
-		   <td><%=link_to("view test", :controller => 'test_taker', :action => 'show_test', :test_results => result.id) %></td>
+		   <td><%=link_to("view results", :controller => 'test_results', :test_results_id => result.id, :action => 'score') %></td>
+		   <td><%=link_to("view test", :controller => 'test_results', :action => 'show_test', :test_results_id => result.id, :time => result.start_time) %></td>
 		</tr>
 	<% end %>
 </table>

@@ -9,28 +9,48 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   
-#  root "admin#index"
+  root "admin#index"
   
   match "test_templates/upload" => "test_templates#upload", via: [:get, :post]
   match "test_templates/save" => "test_templates#save", via: [:get, :post]
-  get "students/get_test" => "students#get_test"
+  match "students/get_test" => "students#get_test", via: [:get, :post]
   match "students/choose_student" => "students#choose_student", via: [:get, :post]
   match "students/show_record" => "students#show_record", via: [:get, :post]
   get "students/authorize" => "students#authorize"
+  post "students/authorize_test" => "students#authorize_test"
   get "test_templates/" => "test_templates#index"
+  get "users/add" => "users#add"
+  get "test_taker/show_test" => "test_taker#show_test"
+  get "test_results/show_test" => "test_results#show_test"
+  match "test_results/score" => "test_results#score", via: [:get, :post]
   
   resources :users, :instructors, :courses, :answer_records, :test_results, :test_templates, :students
   
   get "admin/" => "admin#index"
   match "admin/choose_student" => "students#choose_student", via: [:get, :post]
   get "admin/try-test" => "admin#try_test"
+  match "admin/try_test" => "admin#try_test", via: [:get, :post]
   get "admin/authorize" => "admin#authorize"
   get "admin/add_student_to_course" => "admin#add_student_to_course"
   get "admin/get_student_record" => "admin#get_student_record"
   get "admin/authorize_reentry" => "admin#authorize_reentry"
   get "admin/logout" => "admin#logout"
-  get "admin/login" => "admin#login"
+  match "admin/login" => "admin#login", via: [:get, :post]
+  get "admin/list_users" => "admin#list_users"
+  get "admin/destroy_user" => "admin#destroy_user"
+  get "admin/new_user" => "admin#new_user"
+  get "admin/edit_user" => "admin#edit_user"
+  get "admin/add_user" => "admin#add_user"
+  get "admin/add_course" => "admin#add_course"
+  match "admin/add_test_to_course" => "admin#add_test_to_course", via: [:get, :post]
+  get "admin/show_test_try" => "admin#show_test_try"
+  match "admin/score_try" => "admin#score_try", via: [:get, :post]
+  match "admin/update_answers" => "admin#update_answers", via: [:get, :post]
+  match "admin/add_students" => "admin#add_students", via: [:get, :post]
+  match "admin/show_class" => "admin#show_class", via: [:get, :post]
+  match "test_taker/update_answers" => "test_taker#update_answers", via: [:get, :post]
   get "answer/analyze_answers" => "answer#analyze_answers"
+  get "instructor/create" => "instructor#create"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

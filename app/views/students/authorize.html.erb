@@ -4,19 +4,18 @@
 </p>
 <% end %>
 
-<% form_tag :action => 'authorize_test', :student => @student, :course => @course do %>
-	<p>
-		<label for="test">Test:</label>
-		<% tests = @course.test_templates %>
-		<%= select_tag :test, options_from_collection_for_select(tests, :id, :name, selected_value = nil)%>
-	</p>
-	<p>
-		<label for="time_limit">Time Limit (minutes):</label>
-		<%= text_field_tag :time_limit, 15, :size => 5 %>
-	</p>
-	<p>
-		<label for="time_limit">Until time:</label>
-		<%= select_datetime(Time.now,:include_blank=>true,:start_year => Time.now.year,:end_year => Time.now.year+1) %>
-	</p>
-  <%= submit_tag 'Authorize' %>
-<% end %>
+		<%= form_tag(:action =>'authorize_test', :student => @student, :course => @course, :method => "post") do %>			<p>
+				<label for="test">Test:</label>
+				<% tests = @course.test_templates %>
+				<%= select_tag :test, options_from_collection_for_select(tests, :id, :name, selected_value = nil)%>
+			</p>
+			<p>
+				<label for="time_limit">Time Limit (minutes):</label>
+				<%= text_field_tag :time_limit, 15, :size => 5 %>
+			</p>
+			<p>
+				<label for="time_limit">Until time:</label>
+				<%= select_datetime(Time.now,:include_blank=>true,:start_year => Time.now.year,:end_year => Time.now.year+1) %>
+			</p>
+		  <%= submit_tag 'Authorize' %>
+		<% end %>

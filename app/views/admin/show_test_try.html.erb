@@ -1,4 +1,45 @@
-<% form_tag :controller => 'testing', :action => 'score_try' do %>
+<SCRIPT LANGUAGE="JavaScript"><!--
+function kH(e) {
+var pK = e ? e.which : window.event.keyCode;
+return (pK != 13)&&(pK != 3);}
+document.onkeypress = kH;
+if (document.layers) document.captureEvents(Event.KEYPRESS);
+ --> </SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+function checkNumeric(objName,questionnum) {
+	// only allow 0-9 and period and minus
+	var checkOK = "-.0123456789";
+	var checkStr = objName;
+	var allValid = true;
+
+	for (i = 0;  i < checkStr.value.length;  i++) {
+		ch = checkStr.value.charAt(i);
+		for (j = 0;  j < checkOK.length;  j++)
+			if (ch == checkOK.charAt(j)) break;
+		if (j == checkOK.length) {
+			allValid = false;
+			break;
+		}
+	}
+	if (! allValid) {
+		thetext = "Only numbers are allowed in the answer to question " + questionnum + ".";
+		thetext = thetext + " No other characters are allowed.";
+		alert(thetext);
+		return (false);
+	} else 	return (true);
+}
+
+var isNS4 = (navigator.appName=="Netscape")?1:0;
+
+function addAnswer(i, theAnswer) {
+		var theURL = "<%= url_for(:controller => 'admin', :action => 'update_answers') %>" + '?answer='+i+". "+theAnswer
+//		alert(theURL);
+		var theParam = i+". "+theAnswer;
+//		new Ajax.Request(theURL, {asynchronous:true, evalScripts:true});
+		$.ajax({ url: '/admin/update_answers', data: {answer: theParam } });	}
+ --> </script>
+
+<%= form_tag("score_try", method: "post") do %>
 
 <h1><%= @test_list.shift %></h1>
 <% if not @test_list[0].blank? %>
@@ -46,7 +87,7 @@
 				</TABLE>
 			</TD>
 			<TD style="width: 512px; vertical-align: top; text-align: left;" width=512 rowspan=8>
-				<IMG align=top src="http://math.lanecc.edu/<%= URI.encode(p) %>" BORDER=0>
+				<IMG align=top src="http://s3.amazonaws.com/LaneCCMath/<%= URI.encode(p) %>" BORDER=0>
 			</TD>
 		</TR>
 		</TABLE>
@@ -59,7 +100,7 @@
 					<h3><%= i+=1 -%>.</h3>
 				</td>
 				<TD style="width: 512px; vertical-align: top; text-align: left;" width=512>
-					<IMG align=top src="http://math.lanecc.edu/<%= URI.encode(p) %>" BORDER=0>
+					<IMG align=top src="http://s3.amazonaws.com/LaneCCMath//<%= URI.encode(p) %>" BORDER=0>
 				</TD>
 			</tr>
 			<tr>

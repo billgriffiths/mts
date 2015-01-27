@@ -2,7 +2,7 @@
 	
 	<fieldset>
 		<legend>Choose test</legend>
-		<% form_tag :action => 'try_test' do %>
+		<%= form_tag("try_test", method: "post") do %>
 		<p>
 			<label for="test">Test:</label>
 			<% tests = TestTemplate.order(name: :asc) %>

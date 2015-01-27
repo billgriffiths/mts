@@ -5,7 +5,7 @@
   border: 2px solid red;
   padding: 1em;
   margin-bottom: 2em;
-  background-color: #f0f0f0;
+  background-color: #ffffdd;
   font: bold small sans-serif;
 }
 /* END:notice */
@@ -18,12 +18,12 @@
 	height:40px;
     top:0;
     left:0;
-  background: #dddddd;
+  background: #467;
   padding-top: 11px;
   padding-bottom: 11px;
-  border-bottom: 2px solid;
+  border-bottom: 4px solid red;
   font: small-caps 40px/40px "Times New Roman", serif;
-  color: #444444;
+  color: white;
   text-align: center;
 }
 
@@ -48,21 +48,71 @@
     top:5em;
   font:  sans-serif;
   font-size: small;
-  color: #bfb;
+  color: #ffffdd;
   float: left;
   padding-top: 1em;
   padding-left: 1em;
   padding-bottom: 100em;
   width: 10em;
-  background: #666666;
+  background: #467;
 left: 0;
 position: fixed;
 overflow:auto;
 }
 
+#side ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	width: 150px;
+	}
+	
+#side ol {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: block;
+	width: 150px;
+	}
+
+#side ol li a:hover {
+	color: red;
+	background-color:black;
+	display: block;
+	}
+
+#side ul a {
+	color: white;
+	text-decoration: none;
+	display: block;
+	background: #67a;
+	padding: 0 0.5em;
+	margin: 0 0em 1px 0.5em;
+}
+
+#side ol li {
+	left: 1em;
+	}
+
+#side li ol {
+	position: fixed;
+	left: 149px;
+	top: 0;
+	display: block;
+	}
+			
 #side a {
-  color: #bfb;
-  font-size: small;
+  	color: Lightcyan;
+  	font-size: small;
+	text-decoration: none;
+}
+
+#side a:hover {
+	background-color:#ffffdd;
+	color: #337;
+	text-decoration: none;
+	font:  sans-serif;
+	font-size: small;
 }
 
 h1 {
@@ -75,7 +125,7 @@ h1 {
 /* Styles for order form */
 
 .user-form fieldset {
-  background: #efe;
+  background: #ffffdd;
 }
 
 .user-form legend {
@@ -83,6 +133,23 @@ h1 {
   background: #141;
   font-family: sans-serif;
   padding: 0.2em 1em;
+}
+
+a:hover   {
+	background-color:#ffffdd;
+	color: #67a;
+	text-decoration: none;
+	font:  sans-serif;
+	font-size: small;
+	cursor:pointer;
+}
+
+a {
+
+	color: white;
+	text-decoration: none;
+	background: #89c;
+	padding: 0 0.2em;
 }
 
 .user-form label {
