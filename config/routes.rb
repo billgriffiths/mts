@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   
-  root "admin#index"
+  root "welcome#index"
   
   match "test_templates/upload" => "test_templates#upload", via: [:get, :post]
   match "test_templates/save" => "test_templates#save", via: [:get, :post]
@@ -18,7 +18,10 @@ Rails.application.routes.draw do
   match "students/show_record" => "students#show_record", via: [:get, :post]
   get "students/authorize" => "students#authorize"
   post "students/authorize_test" => "students#authorize_test"
+  match "students/authorize_reentry" => "students#authorize_reentry", via: [:get, :post]
+  post "students/authorize_reentry_test" => "students#authorize_reentry_test"
   get "test_templates/" => "test_templates#index"
+  get "test_templates/show_test" => "test_templates#show_test"
   get "users/add" => "users#add"
   get "test_taker/show_test" => "test_taker#show_test"
   get "test_results/show_test" => "test_results#show_test"
@@ -31,7 +34,7 @@ Rails.application.routes.draw do
   get "admin/try-test" => "admin#try_test"
   match "admin/try_test" => "admin#try_test", via: [:get, :post]
   get "admin/authorize" => "admin#authorize"
-  get "admin/add_student_to_course" => "admin#add_student_to_course"
+  match "admin/add_student_to_course" => "admin#add_student_to_course", via: [:get, :post]
   get "admin/get_student_record" => "admin#get_student_record"
   get "admin/authorize_reentry" => "admin#authorize_reentry"
   get "admin/logout" => "admin#logout"

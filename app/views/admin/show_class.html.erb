@@ -1,4 +1,4 @@
-<h1>Show class</h1>
+<h1>Show students</h1>
 
 <div class="user-form">
 	
@@ -26,9 +26,24 @@
 <% if @students and @students.any? %>
 	<p>
 	<%= "Students in #{@course.title}" %>
+	<table>
+	  <thead>
+	    <tr>
+	      <th colspan="3"></th>
+	    </tr>
+	  </thead>
+
+	  <tbody>
 	<% @students.each do |s| %>
-		<li><%= link_to ("#{s.last_name}, #{s.first_name}, #{s.student_number}"), {:controller => "students", :action => :show_record, :id => s, :course => @course}, :method => :post %></li>
+	  <tr>
+		<td><%=h "#{s.last_name}, #{s.first_name}, #{s.student_number}" %></td>
+        <td><%= link_to 'Show', {:controller => "students", :action => :show_record, :id => s, :course => @course}, :method => :post %></td>
+        <td><%= link_to 'Edit', edit_student_path(s) %></td>
+        <td><%= link_to 'Remove', s, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+	  </tr>
 	<% end %>
+  </tbody>
+</table>
 	</p>
 <% elsif @course %>
 	<p>
@@ -41,6 +56,6 @@
 <%end%>
 
 <p>
-	<%= link_to 'Back', :controller => 'admin', :action => 'show_class' %>
+	<%= link_to 'Add student to class', :controller => 'admin', :action => 'add_student_to_course', :course => @course %>
 </p>
 

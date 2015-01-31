@@ -1,5 +1,3 @@
-<%=debug session[:courses]%>
-
 <h1>Choose Student</h1>
 
 <p>First letter of last name</p>
@@ -30,29 +28,22 @@
 		<% end %>
 	</fieldset>
 </div>
-
-<%=params%><br/>
-
+<p>
 <span class="advice">
 	Clicking on Show Matching Students with all blank fields will give a list of all students
 </span>
-
+</p>
 <% if @students and not @students.empty? %>
 	<% @students.each do |s| %>
-		<br>
-		<%= link_to ("#{s.last_name}, #{s.first_name}, #{s.student_number}"), {:action => "#{session[:student_action]}", :id => s}, :method => :post %>
-		</br>
-	<% end %>
-	<% @students.each do |s| %>
-		<% s.courses.each do |c|%>
-			<% if session[:courses] %>
-			<p>
-			<%= link_to ("#{s.last_name}, #{s.first_name}, #{s.student_number}, #{c.title}"), {:action => "#{session[:student_action]}", :id => s, :course => c}, :method => :post %>
-			</p>
-			<% else %>
-				<p>
-				<%= link_to ("#{s.last_name}, #{s.first_name}, #{s.student_number}, #{c.title}"), {:action => "#{session[:student_action]}", :id => s, :course => c}, :method => :post %>
-				</p>
+		<% if s.courses.nil? %>
+			<%= link_to ("#{s.last_name}, #{s.first_name}, #{s.student_number}"), {:action => "#{session[:student_action]}", :id => s}, :method => :post %>
+		<% else %>
+			<% s.courses.each do |c|%>
+				<% if session[:courses] %>
+					<%= link_to ("#{s.last_name}, #{s.first_name}, #{s.student_number}, #{c.title}"), {:action => "#{session[:student_action]}", :id => s, :course => c}, :method => :post %><br/>
+				<% else %>
+					<%= link_to ("#{s.last_name}, #{s.first_name}, #{s.student_number}, #{c.title}"), {:action => "#{session[:student_action]}", :id => s, :course => c}, :method => :post %><br/>
+				<% end %>
 			<% end %>
 		<% end %>
 	<% end %>

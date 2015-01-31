@@ -93,7 +93,6 @@ class AdminController < ApplicationController
     end
 
     def update_answers
-      byebug
       if @answers.nil?
         @answers = Answers.new
       end
@@ -101,21 +100,7 @@ class AdminController < ApplicationController
       @answer = answer
       answerarray = answer.split(" ")
       i = answerarray[0].to_i
-      # session[:items][i-1] = answer
-      # respond_to do |format|
-      #   format.html
-      #   format.js
-      # end
-      # @current_answer = answer
-      # @test_results = session[:test_results]
-      # @answers.items = @test_results.answers.split("<*>")
-      # if @test_results.status == 'finished'
-      #   @current_answer = @answers.items[i-1]
-      # else
-        @answers.items[i-1] = answer
-        # @test_results.answers = @answers.items.join("<*>")
-        # @test_results.save
-      # end
+      @answers.items[i-1] = answer
     end
 
     def get_student_record
@@ -132,7 +117,7 @@ class AdminController < ApplicationController
 
     def authorize_reentry
       session[:student_action] = "authorize_reentry"
-#      redirect_to(:controller => 'students', :action => 'choose_student')
+      redirect_to(:controller => 'students', :action => 'choose_student')
     end
 
     def add_test_to_course
@@ -150,21 +135,27 @@ class AdminController < ApplicationController
     end
 
     def add_student_to_course
-      @student = Student.new(params[:student])
+      @course = Course.find(params[:course])
       if request.post? 
-        if not @student.student_number.blank?
-          @course = Course.find(params[:course])
-          @old_student = Student.find_by_student_number(@student.student_number)
-          if @old_student and @old_student.first_name == @student.first_name and @old_student.last_name == @student.last_name
+        if not params[:student][:student_number].blank?
+          @old_student = Student.find_by_student_number(params[:student][:student_number])
+          if @old_student and @old_student.first_name == params[:student][:first_name] and @old_student.last_name == params[:student][:last_name]
             if @course.students.detect {|s| s == @old_student}
               flash[:notice] = "#{@student.first_name} #{@student.last_name} is already enrolled in #{@course.course_name}"
             else
-              @student.add_course(@course)
-              flash[:notice] = "Old student #{@student.first_name} #{@student.last_name} successfully enrolled in #{@course.course_name}"
+              @old_student.add_course(@course)
+              flash[:notice] = "Old student #{@old_student.first_name} #{@old_student.last_name} successfully enrolled in #{@course.course_name}"
             end
-          elsif @student.save
+          elsif @old_student.nil?
+            @student = Student.new
+            @student.student_number = params[:student][:student_number]
+            @student.last_name = params[:student][:last_name]
+            @student.first_name = params[:student][:first_name]
+            if @student.save
               @student.add_course(@course)
               flash[:notice] = "New student #{@student.first_name} #{@student.last_name} successfully enrolled in #{@course.course_name}"
+              redirect_to(:controller => 'admin', :action => 'show_class')
+            end
           end
         else
           flash[:notice] = "Error, student number is blank. #{params.to_s}"
@@ -178,37 +169,43 @@ class AdminController < ApplicationController
       @n = session[:n]
       if request.post? 
         @course = Course.find(params[:course])
-        @students = []
-        @students_already_enrolled = []
-        @students_errors = []
-        student_data = params["student_data"].gsub("\r","").split("\n")
-        for s in student_data do
-          t = s.split("\t")
-          @student = Student.new
-          @student.student_number = t[0]
-          @student.last_name = t[1]
-          @student.first_name = t[2]
-          if not @student.student_number.blank?
-            @old_student = Student.find_by_student_number(@student.student_number)
-            if @old_student and @old_student.first_name == @student.first_name and @old_student.last_name == @student.last_name
-              if @course.students.detect {|s| s == @old_student}
-#                flash[:notice] = "#{@student.first_name} #{@student.last_name} is already enrolled in #{@course.course_name}"
-                @students_already_enrolled << @student
-              else
-                @student.add_course(@course)
-#                flash[:notice] += "Old student #{@student.first_name} #{@student.last_name} successfully enrolled in #{@course.course_name}"
-                @students  << @student
-              end
-            elsif @student.save
-               @student.add_course(@course)
-               flash[:notice] += "New student #{@student.first_name} #{@student.last_name} successfully enrolled in #{@course.course_name}"
-               @students  << @student
-             else
-               @students_errors  << @student
-             end
+        if @course.nil?
+          flash[:notice] = "Course not selected."
+        else
+          @students = []
+          @students_already_enrolled = []
+          @students_errors = []
+          student_data = params["student_data"].gsub("\r","").split("\n")
+          @course = Course.find(params[:course])
+          if student_data.blank?
+            flash[:notice] = "No student data given."
           else
-            @students_errors  << @student
-#            flash[:notice] = "Error, student number is blank. #{@student.first_name} #{@student.last_name}"
+            for s in student_data do
+              t = s.split("\t")
+              @student = Student.new
+              @student.student_number = t[0]
+              @student.last_name = t[1]
+              @student.first_name = t[2]
+              if not @student.student_number.blank?
+                @old_student = Student.find_by_student_number(@student.student_number)
+                if @old_student and @old_student.first_name == @student.first_name and @old_student.last_name == @student.last_name
+                  if @course.students.detect {|s| s == @old_student}
+                    @students_already_enrolled << @student
+                  else
+                    @student.add_course(@course)
+                    @students  << @student
+                  end
+                elsif @student.save
+                   @student.add_course(@course)
+                   flash[:notice] += "New student #{@student.first_name} #{@student.last_name} successfully enrolled in #{@course.course_name}"
+                   @students  << @student
+                 else
+                   @students_errors  << @student
+                 end
+              else
+                @students_errors  << @student
+              end
+            end
           end
         end
       end

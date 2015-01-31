@@ -3,14 +3,12 @@
   <b><%= column.human_name %>:</b> <%=h @student.send(column.name) %>
 </p>
 <% end %>
+<%= form_tag(:action =>'authorize_reentry_test', :method => "post") do %>
 
-<% form_tag :action => 'authorize_reentry_test' do %>
-	<label for="test">Authorize Re-entry to Test:</label>
-	<% tests = TestResult.find(:all, :conditions => ["student_id = ?", @student], :order => "start_time desc") %>
+	<label for="test">Authorize Re-entry to Test:</label><p>
+	<% tests = TestResult.where("student_id = #{params[:id]}", :order => "start_time desc") %>
 	<% tests.each do |t| %>
-	<p>
-		<%= radio_button_tag :id, tag_value = "#{t.id}" %><%= "#{t.test_template.name} #{t.start_time}" %>
-	</p>
+			<%= radio_button_tag :id, tag_value = "#{t.id}" %><%= "#{t.test_template.name} #{t.start_time}" %><br>
 	<% end %>
 	<p>
 		<label for="time_limit">Time Limit (minutes):</label>

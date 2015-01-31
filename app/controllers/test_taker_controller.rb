@@ -183,7 +183,7 @@ class TestTakerController < ApplicationController
     end
     @n = @test_list[2].to_i
     if @test_results.answers.nil?
-      @answers.items = Array.new(@n) {|i| (i+1).to_s}
+      @answers.items = Array.new(@n) {|i| (i+1).to_s+"."}
       @test_results.answers = @answers.items.join("<*>")
     else
       @answers.items = @test_results.answers.split("<*>")
@@ -208,6 +208,9 @@ class TestTakerController < ApplicationController
       @answers.items[i-1] = answer
       @test_results.answers = @answers.items.join("<*>")
       @test_results.save
+    end
+    respond_to do |format|
+      format.js
     end
   end
    

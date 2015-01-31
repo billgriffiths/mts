@@ -135,23 +135,6 @@ h1 {
   padding: 0.2em 1em;
 }
 
-a:hover   {
-	background-color:#ffffdd;
-	color: #67a;
-	text-decoration: none;
-	font:  sans-serif;
-	font-size: small;
-	cursor:pointer;
-}
-
-a {
-
-	color: white;
-	text-decoration: none;
-	background: #89c;
-	padding: 0 0.2em;
-}
-
 .user-form label {
   width: 10em;
   float: left;
@@ -200,4 +183,20 @@ a {
 #errorExplanation ul li {
   font-size: 12px;
   list-style: square;
+}
+
+.advice {
+	font-family:"Times New Roman";
+  	text-align: center;
+  	font-style: italic;
+  	font-size: 100%;
+  	color: red;
+}
+
+.advice h3 {
+	font-family:"Times New Roman";
+  	font-size: 100%;
+  	font-style: italic;
+	font-weight:bold;
+  	color: red;
 }

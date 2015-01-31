@@ -19,9 +19,9 @@ Errors in adding students
 <% if !@students_already_enrolled.nil? and @students_already_enrolled.any? %>
 <p>
 	<%= "Students already enrolled in #{@course.title}" %>
-<% @students_already_enrolled.each do |s| %>
-  <li><%= "#{s.last_name} #{s.first_name} #{s.student_number}" %></li>
-<% end %>
+	<% @students_already_enrolled.each do |s| %>
+	 	<li><%= "#{s.last_name} #{s.first_name} #{s.student_number}" %></li>
+	<% end %>
 </p>
 <%end%>
 </br>

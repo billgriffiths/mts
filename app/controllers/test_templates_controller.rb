@@ -33,6 +33,14 @@ layout "admin"
          render :new 
       end
   end
+  
+  def show_test
+      @test = TestTemplate.find(params[:id])
+      @test_list = TestTakerController.generate_test_form(@test.template)
+      session[:test_list] = @test_list
+      redirect_to(:controller => :admin, :action => 'show_test_try')
+   end
+  
 
   # PATCH/PUT /test_templates/1
   def update

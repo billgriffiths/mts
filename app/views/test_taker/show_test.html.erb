@@ -40,6 +40,11 @@ function checkNumeric(objName,questionnum) {
 
 var isNS4 = (navigator.appName=="Netscape")?1:0;
 
+function addAnswer(i, theAnswer) {
+		var theURL = "<%= url_for(:controller => 'test_taker', :action => 'update_answers') %>" + '?answer='+i+". "+theAnswer
+		var theParam = i+". "+theAnswer;
+//		new Ajax.Request(theURL, {asynchronous:true, evalScripts:true});
+		$.ajax({ url: '/test_taker/update_answers', data: {answer: theParam } });	}
  --> </script>
 </head>
 <body id="admin">
@@ -47,12 +52,7 @@ var isNS4 = (navigator.appName=="Netscape")?1:0;
     <div id="side" style="<%="background: #{@test_background_color}"%>">
 		<% test_title = @test_list.shift %>
 		<%= test_title %></br>
-		<% if @resource != "" %>
-			<hr>
-			<a href="" style="background: #337; color: #fff" onmouseover="this.style.color='#FF0000'" onmouseout="this.style.color='#fff'"
-			 onclick="javascript:void window.open('/admin/show_resource','1365195934901','width=500,height=600,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0');return false;">Show Units</a>
-			<hr>
-		<% end -%>
+		<hr>
 		<div id="answers">
 			<%= render(:partial => "answers", :object => @answers) -%>
 		</div>
@@ -62,7 +62,6 @@ var isNS4 = (navigator.appName=="Netscape")?1:0;
       <div id="notice"><%= flash[:notice] %></div>
     <% end -%>
 <%= form_tag :controller => 'test_results', :action => 'score' do %>
-<%= debug @answers %>
 <h1><%= @test_list.shift %></h1>
 <% if not @test_list[0].blank? %>
 	<hr>

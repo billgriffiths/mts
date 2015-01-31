@@ -22,7 +22,7 @@
         <li/>
         <%= link_to "Authorize",   :controller => 'admin', :action => 'authorize' %>
         </li><li>
-        <%= link_to "Authorize Re-entry",   :controller => 'admin', :action => 'authorize_reentry' %>
+        <%= link_to "Authorize Resume",   :controller => 'admin', :action => 'authorize_reentry' %>
         </li><li>
         <%= link_to "Take Test",   :controller => 'students', :action => 'get_test' %>
         </li><li>
@@ -61,10 +61,8 @@
 			<legend>Instructor</legend>
 		</p>
 		<li>
-        <%= link_to "Class",   :controller => 'admin', :action => 'show_class' %>
+        <%= link_to "Student list",   :controller => 'admin', :action => 'show_class' %>
         </li><li>
-	    <%= link_to "Add student",   :controller => 'admin', :action => 'add_student_to_course' %>
-	    </li><li>
 	    <%= link_to "Add test to class",   :controller => 'admin', :action => 'add_test_to_course' %>
 	    </li><li>
 	    <%= link_to "Test analysis",   :controller => 'answer', :action => 'analyze_answers' %>
