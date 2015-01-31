@@ -1,3 +1,0 @@
-page.replace_html("answers", :partial => "answers", :object => @answers)
-
-page[:current_answer].visual_effect :highlight, :endcolor => "#666666"
