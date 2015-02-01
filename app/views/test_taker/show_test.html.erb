@@ -50,7 +50,7 @@ function addAnswer(i, theAnswer) {
 <body id="admin">
   <div id="columns">
     <div id="side" style="<%="background: #{@test_background_color}"%>">
-		<% test_title = @test_list.shift %>
+		<% test_title = @test_title %>
 		<%= test_title %></br>
 		<hr>
 		<div id="answers">
@@ -62,13 +62,11 @@ function addAnswer(i, theAnswer) {
       <div id="notice"><%= flash[:notice] %></div>
     <% end -%>
 <%= form_tag :controller => 'test_results', :action => 'score' do %>
-<h1><%= @test_list.shift %></h1>
-<% if not @test_list[0].blank? %>
+<h1><%= @test_title %></h1>
+<% if not @test_instructions.blank? %>
 	<hr>
-	<h3><%= @test_list[0] %></h3>
+	<h3><%= @test_instructions %></h3>
 <% end -%>
-<% @test_list.shift %>
-<% n = @test_list.shift.to_i %>
 
 <% choices = [] %>
 <% l = "A" %>
@@ -89,7 +87,7 @@ function addAnswer(i, theAnswer) {
 		<% end %>
 		<% elsif code == "m" %>
 			<hr>
-			<A name="<%= i+1 %>"></A>
+			<A name="<%= i+1 %>."></A>
 			<TABLE BORDER=0 CELLPADDING=10>
 			<TR>
 				<TD height=50 style="width: 50px; vertical-align: top; text-align: right;">
@@ -114,7 +112,7 @@ function addAnswer(i, theAnswer) {
 			</TABLE>
 		<% elsif code == "f" %>
 			<hr>
-			<A name="<%= i+1 %>"></A>
+			<A name="<%= i+1 %>."></A>
 			<TABLE BORDER=0 CELLPADDING=10>
 				<TR>
 					<TD height=50 style="width: 50px; vertical-align: top; text-align: right;">

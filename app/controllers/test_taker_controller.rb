@@ -181,7 +181,10 @@ class TestTakerController < ApplicationController
     else
       @test_list = @test_results.test_items.split("<*>")
     end
+    @test_title = @test_list[0]
+    @test_instructions = @test_list[1]
     @n = @test_list[2].to_i
+    @test_list = @test_list.drop(4)
     if @test_results.answers.nil?
       @answers.items = Array.new(@n) {|i| (i+1).to_s+"."}
       @test_results.answers = @answers.items.join("<*>")

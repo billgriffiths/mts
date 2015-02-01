@@ -33,21 +33,17 @@ var isNS4 = (navigator.appName=="Netscape")?1:0;
 
 function addAnswer(i, theAnswer) {
 		var theURL = "<%= url_for(:controller => 'admin', :action => 'update_answers') %>" + '?answer='+i+". "+theAnswer
-//		alert(theURL);
 		var theParam = i+". "+theAnswer;
-//		new Ajax.Request(theURL, {asynchronous:true, evalScripts:true});
 		$.ajax({ url: '/admin/update_answers', data: {answer: theParam } });	}
  --> </script>
 
 <%= form_tag("score_try", method: "post") do %>
 
-<h1><%= @test_list.shift %></h1>
-<% if not @test_list[0].blank? %>
+<h1><%= @test_title %></h1>
+<% if not @test_instructions.blank? %>
 	<hr>
-	<h3><%= @test_list[0] %></h3>
+	<h3><%= @test_instructions %></h3>
 <% end -%>
-<% @test_list.shift %>
-<% n = @test_list.shift.to_i %>
 
 <% choices = [] %>
 <% l = "A" %>
@@ -68,7 +64,7 @@ function addAnswer(i, theAnswer) {
 		<% end %>
 	<% elsif code == "m" %>
 		<hr>
-		<A name="<%= i+1 %>"></A>
+		<A name="<%= i+1 %>."></A>
 		<TABLE BORDER=0 CELLPADDING=10>
 		<TR>
 			<TD height=50 style="width: 50px; vertical-align: top; text-align: right;">
@@ -93,7 +89,7 @@ function addAnswer(i, theAnswer) {
 		</TABLE>
 	<% elsif code == "f" %>
 		<hr>
-		<A name="<%= i+1 %>"></A>
+		<A name="<%= i+1 %>."></A>
 		<TABLE BORDER=0 CELLPADDING=10>
 			<TR>
 				<TD height=50 style="width: 50px; vertical-align: top; text-align: right;">

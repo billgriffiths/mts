@@ -22,10 +22,13 @@ class AdminController < ApplicationController
     def show_test_try
       @answers = nil
       @test_list = session[:test_list]
-      n = @test_list.length
+      @test_title = @test_list[0]
+      @test_instructions = @test_list[1]
+      @n = @test_list[2].to_i
+      @test_list = @test_list.drop(4)
      if @answers.nil?
         @answers = Answers.new
-        @answers.items = Array.new(n) {|i| (i+1).to_s}
+        @answers.items = Array.new(@n) {|i| (i+1).to_s}
       end
       session[:answers] = @answers
     end

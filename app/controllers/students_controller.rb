@@ -119,11 +119,15 @@ layout "admin"
       if request.post?
         current_time = Time.now.strftime("%Y-%m-%d %H:%M:%S")
         @student = Student.find_by_student_number(params[:student_number])
-        test_result = TestResult.where(["status = 'authorized' and student_id = #{@student.id} and start_time >= '#{current_time}'"])
-        if test_result.length == 0
-          flash[:notice] = "No tests are currently authorized for student id #{params[:student_number]}."
+        if @student.nil?
+          flash[:notice] = "Student ID #{params[:student_number]} not found."
         else
-          redirect_to(:controller => 'test_taker', :action => 'show_test', :student => params[:student_number], :test_results => test_result[0].id)
+          test_result = TestResult.where(["status = 'authorized' and student_id = #{@student.id} and start_time >= '#{current_time}'"])
+          if test_result.length == 0
+            flash[:notice] = "No tests are currently authorized for student id #{params[:student_number]}."
+          else
+            redirect_to(:controller => 'test_taker', :action => 'show_test', :student => params[:student_number], :test_results => test_result[0].id)
+          end
         end
       end
     end
