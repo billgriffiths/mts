@@ -1,0 +1,82 @@
+<h1>Authorize class</h1>
+
+<div class="user-form">
+	
+	<fieldset>
+		<legend>Choose Class</legend>
+		<%= form_tag("authorize_class", method: "post") do %>
+		<p>
+			<label for="course">Class:</label>
+			<% if @instructor.nil? %>
+				<% courses = Course.all %>
+			<% else %>
+				<% courses = Course.where("instructor_id = ?",@instructor ) %>
+			<% end %>
+			<% if @course.nil? %>
+			 	<% selected_id = nil %>
+			<% else %>
+			 	<% selected_id = @course.id %>
+			<% end %>
+			<%= select_tag :course, options_from_collection_for_select(courses, :id, :title, selected_value = selected_id)%>
+		</p>
+		<p>
+			<label for="test">Test:</label>
+			<% if @test.nil? %>
+				<% tests = TestTemplate.all #find(:all, :order => "name") %>
+			 	<% selected_test_id = nil %>
+			<% else %>
+		 		<% selected_test_id = @test.id %>
+				<% tests = @course.test_templates %>
+			<% end %>
+			<%= select_tag :test, options_from_collection_for_select(tests, :id, :name, selected_value = selected_test_id)%>
+		</p>
+		<%= submit_tag "Choose" %>
+		<% end %>
+	</fieldset>
+</div>
+<br>
+<% if @students and @students.any? %>
+	<% if @select_all == "false" %>
+		<%= link_to 'Select all', :controller => 'admin', :action => 'authorize_class', :course => @course, :test => @test, :select_all => 'true' %>
+	<% else %>
+		<%= link_to 'Deselect all', :controller => 'admin', :action => 'authorize_class', :course => @course, :test => @test, :select_all => 'false' %>
+	<% end %>
+	<p>
+	<%= "Students in #{@course.title}" %>
+	<%= form_tag(:controller => 'admin', :action =>'authorize_class_test', :students => @students, :course => @course, :test => @test, :method => "post") do %>
+		<table>
+		  <thead>
+		    <tr>
+		      <th colspan="3"></th>
+		    </tr>
+		  </thead>
+
+		  <tbody>
+		<% @students.each do |s| %>
+			  <tr>
+				<td><%= check_box("checked_student", "#{s.id}", {checked: ("#{@select_all}" == "true")}) %>
+				<%= "#{s.last_name}, #{s.first_name}, #{s.student_number}" %></td>
+			  </tr>
+			<% end %>
+		  </tbody>
+		</table>
+		</p>
+		<p>
+			<label for="time_limit">Time Limit (minutes):</label>
+			<%= text_field_tag :time_limit, 15, :size => 5 %>
+		</p>
+		<p>
+			<label for="time_limit">Until time:</label>
+			<%= select_datetime(Time.now,:include_blank=>true,:start_year => Time.now.year,:end_year => Time.now.year+1) %>
+		</p>
+	  <%= submit_tag 'Authorize' %>
+	<% end %>
+<% elsif @course %>
+	<p>
+	<%= "No students found in #{@course.title}" %>
+	</p>
+<% else %>
+<p>
+	<%= "No course specified." %>
+</p>
+<%end%>

@@ -123,6 +123,59 @@ class AdminController < ApplicationController
       redirect_to(:controller => 'students', :action => 'choose_student')
     end
 
+    def authorize_class
+      @user = User.find(session[:user_id])
+      if session[:instructor]
+        @instructor = Instructor.find(session[:instructor])
+      end
+      if request.post? or not params[:course].nil?
+        @select_all = params[:select_all]
+        if @select_all.nil?
+          @select_all = "false"
+        end
+        @course = Course.find(params[:course])
+        if not params[:test].nil?
+          @test = TestTemplate.find(params[:test])
+        end
+        @students = []
+        Student.all.each do |s|
+          if s.courses.include?(@course)
+            @students << s
+          end       
+        end
+      end
+    end
+    
+    def authorize_class_test
+      @students = params[:students]
+      @course = Course.find(params[:course])
+      @test = TestTemplate.find(params[:test])
+      @checked_students = params[:checked_student] 
+      @student_testers = []
+      @start_time = Time.now
+      @time_limit = params[:time_limit].to_i*60
+      @end_time = @start_time + @time_limit
+      if not @students.nil?
+        @students.each do |s|
+          if params[:checked_student][s] == '1'
+            @student = Student.find(s)
+            @student_testers << @student
+            TestResult.destroy_all("status = 'authorized' and student_id = #{s}")
+            test_result = TestResult.new
+            test_result.status = 'authorized'
+            test_result.student = @student
+            test_result.test_template = @test
+            test_result.start_time = @end_time
+            test_result.course = @course
+            test_result.save
+            @student.add_test_result(test_result)
+            @student.save
+          end
+        end
+      end
+      
+    end
+
     def add_test_to_course
       if request.post?
         @test = TestTemplate.find(params[:test])

@@ -34,6 +34,9 @@ Rails.application.routes.draw do
   get "admin/try-test" => "admin#try_test"
   match "admin/try_test" => "admin#try_test", via: [:get, :post]
   get "admin/authorize" => "admin#authorize"
+  match "admin/authorize_class" => "admin#authorize_class", via: [:get, :post]
+  match "admin/authorize_class_test" => "admin#authorize_class_test", via: [:get, :post]
+  get "admin/authorize_class_test" => "admin#authorize_class_test"
   match "admin/add_student_to_course" => "admin#add_student_to_course", via: [:get, :post]
   get "admin/get_student_record" => "admin#get_student_record"
   get "admin/authorize_reentry" => "admin#authorize_reentry"

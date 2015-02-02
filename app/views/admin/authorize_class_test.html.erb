@@ -1,0 +1,21 @@
+
+<% if @students and @students.any? %>
+	<h3><%= "The following students in #{@course.title} are authorized" %><br>
+	<%= "to take test #{@test.name}.until #{@end_time.strftime('%H:%M %m/%d/%Y')}"%></h3>
+	<table>
+	  <thead>
+	    <tr>
+	      <th colspan="3"></th>
+	    </tr>
+	  </thead>
+
+	  <tbody>
+	<% @student_testers.each do |s| %>
+	  	<tr>
+			<td><%= "#{s.last_name}, #{s.first_name}, #{s.student_number}" %></td>			
+	  	</tr>
+	<% end %>
+  </tbody>
+</table>
+	</p>
+<% end %>
