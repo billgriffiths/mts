@@ -124,6 +124,9 @@ class AdminController < ApplicationController
     end
 
     def authorize_class
+      if session[:user_id].nil?
+        redirect_to(:action  => "login") and return false
+      end
       @user = User.find(session[:user_id])
       if session[:instructor]
         @instructor = Instructor.find(session[:instructor])
@@ -172,8 +175,29 @@ class AdminController < ApplicationController
             @student.save
           end
         end
+      end      
+    end
+    
+    def test_results
+    end
+    
+    def show_test_results
+      if session[:instructor]
+        @instructor = Instructor.find(session[:instructor])
       end
-      
+      if not params[:course].nil?
+        @course = Course.find(params[:course])
+        if not params[:test].nil?
+          @test = TestTemplate.find(params[:test])
+        end
+        @students = []
+        Student.all.each do |s|
+          if s.courses.include?(@course)
+            @students << s
+          end       
+        end
+        @students.sort! {|x,y| x.last_name <=> y.last_name}
+      end      
     end
 
     def add_test_to_course
@@ -310,30 +334,11 @@ class AdminController < ApplicationController
       redirect_to(:action  => :list_users)
     end
 
-  #  def list_users
-  #    user = User.find_by_id(session[:user_id])
-  #    if user 
-  #      if user.testing_system.blank?
-  #        @all_users = User.find(:all)
-  #      else
-  #        @all_users = User.find_all_by_testing_system(user.testing_system)
-  #      end
-  #    else
-  #      @all_users = User.find(:all)
-  #    end
-  #  end
-
-#    def index
- #     list_users
-  #    render :action => 'list_users'
-   # end
-
     # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
 #    verify :method => :post, :only => [ :destroy, :create, :update ],
  #          :redirect_to => { :action => :list }
 
  def show_class
-   @user = User.find(session[:user_id])
    if session[:instructor]
      @instructor = Instructor.find(session[:instructor])
    end
@@ -421,6 +426,8 @@ class AdminController < ApplicationController
 
     def logout
       session[:user_id] = nil
+      session[:user_role] = nil
+      session[:original_url] = nil
       session[:courses] = nil
       flash[:notice] = "logged out"
       redirect_to(:action  => "login")

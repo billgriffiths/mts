@@ -1,0 +1,36 @@
+<% if @students and @students.any? %>
+	<h3>
+	<%= "Class #{@course.title} test scores for test #{@test.name}" %></h3>
+	<table>
+	  <thead>
+	    <tr>
+	      <th colspan="3"></th>
+	    </tr>
+	  </thead>
+
+	  <tbody>
+	<% @students.each do |s| %>
+	  <tr>
+		<td><%=h "#{s.last_name}, #{s.first_name}"%>
+		<% test_results = TestResult.where(["student_id =? and test_template_id = ?",s.id,@test.id]) %>
+		<% test_results.each do |r| %>
+			<% if r.score %>
+				</td><td>
+				<%= r.score*100 %>
+			<% end %>
+		<% end %>
+		</td>
+	  </tr>
+	<% end %>
+  </tbody>
+</table>
+	</p>
+<% elsif @course %>
+	<p>
+	<%= "No students found in #{@course.title}" %>
+	</p>
+<% else %>
+<p>
+	<%= "No course specified." %>
+</p>
+<%end%>

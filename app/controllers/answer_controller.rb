@@ -9,7 +9,7 @@ class AnswerController < ApplicationController
   def analyze_problem
     @problem_name = params[:name]
     @ext = @problem_name.split(".").last
-    if @ext == "pedr" or ext == "jpg"
+    if @ext == "pedr" or @ext == "jpg"
       @n = 4
     else
       @n = 5
@@ -21,7 +21,7 @@ class AnswerController < ApplicationController
       l = l.succ
     end
      @frequency["N"] = 0
-    @records = AnswerRecord.find(:all, "", :conditions => ["problem = ?", @problem_name])
+    @records = AnswerRecord.where(["problem = ?", @problem_name])
     @records.each do |r|
       @frequency[r.decoded_answer] += 1
     end

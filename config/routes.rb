@@ -29,7 +29,10 @@ Rails.application.routes.draw do
   
   resources :users, :instructors, :courses, :answer_records, :test_results, :test_templates, :students
   
-  get "admin/" => "admin#index"
+  match "/login" => "admin#login", via: [:get, :post]
+  match "/admin" => "admin#login", via: [:get, :post]
+  match "answer/analyze_test" => "answer#analyze_test", via: [:get, :post]
+  match "answer/analyze_problem" => "answer#analyze_problem", via: [:get, :post]
   match "admin/choose_student" => "students#choose_student", via: [:get, :post]
   get "admin/try-test" => "admin#try_test"
   match "admin/try_test" => "admin#try_test", via: [:get, :post]
@@ -50,6 +53,8 @@ Rails.application.routes.draw do
   get "admin/add_course" => "admin#add_course"
   match "admin/add_test_to_course" => "admin#add_test_to_course", via: [:get, :post]
   get "admin/show_test_try" => "admin#show_test_try"
+  get "admin/test_results" => "admin#test_results"
+  match "admin/show_test_results" => "admin#show_test_results", via: :post
   match "admin/score_try" => "admin#score_try", via: [:get, :post]
   match "admin/update_answers" => "admin#update_answers", via: [:get, :post]
   match "admin/add_students" => "admin#add_students", via: [:get, :post]

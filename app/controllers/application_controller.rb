@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   private
 
   def authorize_access
-    return if self.controller_name == 'admin'
+    return if self.controller_name == 'admin' and not session[:user_id].nil?
     unless User.find_by_id(session[:user_id])
       session[:orginal_url] = request.original_url
 #      flash[:notice] = "Please Log In"
