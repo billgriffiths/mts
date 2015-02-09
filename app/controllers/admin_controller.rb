@@ -12,16 +12,16 @@ class AdminController < ApplicationController
 
     def try_test
       if request.post?
-        @test = TestTemplate.find(params[:test])
-        @test_list = TestTakerController.generate_test_form(@test.template)
-        session[:test_list] = @test_list
+        test = TestTemplate.find(params[:test])
+        session[:test] = test.id
         redirect_to( :action => 'show_test_try')
       end
     end
 
     def show_test_try
+      @test = TestTemplate.find(session[:test])
+      @test_list = TestTakerController.generate_test_form(@test.template)
       @answers = nil
-      @test_list = session[:test_list]
       @test_title = @test_list[0]
       @test_instructions = @test_list[1]
       @n = @test_list[2].to_i
@@ -30,14 +30,13 @@ class AdminController < ApplicationController
         @answers = Answers.new
         @answers.items = Array.new(@n) {|i| (i+1).to_s}
       end
-      session[:answers] = @answers
+#      session[:answers] = @answers
     end
 
     def score_try
         require 'open-uri'
         require 'pp'
-#        answers = session[:answers].items
-        @test_list = session[:test_list]
+        @test_list = params[:test_list]
         n = @test_list.length
         choices = []
         l = "A"

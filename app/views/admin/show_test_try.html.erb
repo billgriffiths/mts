@@ -37,7 +37,7 @@ function addAnswer(i, theAnswer) {
 		$.ajax({ url: '/admin/update_answers', data: {answer: theParam } });	}
  --> </script>
 
-<%= form_tag("score_try", method: "post") do %>
+<%= form_tag(:controller => 'admin', :action => "score_try", :test_list => @test_list, :method => "get") do %>
 
 <h1><%= @test_title %></h1>
 <% if not @test_instructions.blank? %>
