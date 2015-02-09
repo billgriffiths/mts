@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   match "answer/analyze_test" => "answer#analyze_test", via: [:get, :post]
   match "answer/analyze_problem" => "answer#analyze_problem", via: [:get, :post]
   match "admin/choose_student" => "students#choose_student", via: [:get, :post]
+  get "admin/index" => "admin#index"
   get "admin/try-test" => "admin#try_test"
   match "admin/try_test" => "admin#try_test", via: [:get, :post]
   get "admin/authorize" => "admin#authorize"
