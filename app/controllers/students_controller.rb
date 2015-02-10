@@ -52,17 +52,17 @@ layout "admin"
     def choose_student
       if request.post?
         if not params[:letter].blank?
-          @students = Student.where("last_name LIKE 'Schmoe'")
-#          @students = Student.where(["last_name like ?",params[:letter]+"%"])      
+           letter = "#{params[:letter]}%"
+          @students = Student.where(["last_name ILIKE ?",letter])      
         else
-          @students = Student.where( ["last_name like ? and first_name like ? and student_number like ?",params[:last_name]+"%",params[:first_name]+"%",params[:student_number]+"%"])
+          @students = Student.where( ["last_name ILIKE ? and first_name ILIKE ? and student_number ILIKE ?","#{params[:last_name]}%","#{params[:first_name]}%","#{params[:student_number]}%"])
         end
         if @students.empty?
           user = User.find(session[:user_id])
           if user.role == "instructor"
             flash[:notice] = "No matching students found for instructor #{user.last_name}."
           else
-            flash[:notice] = "No matching students found #{user.role}."
+            flash[:notice] = "No matching students found."
           end
         end
       end

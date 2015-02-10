@@ -47,8 +47,11 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     @user.destroy
-      redirect_to users_url, notice: 'User was successfully destroyed.' 
+    respond_to do |format|
+      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.json { head :no_content }
     end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

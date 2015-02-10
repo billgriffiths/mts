@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   get 'sessionsgem/install'
 
   get 'sessionsgem/bcrypt'
@@ -22,10 +23,14 @@ Rails.application.routes.draw do
   post "students/authorize_reentry_test" => "students#authorize_reentry_test"
   get "test_templates/" => "test_templates#index"
   get "test_templates/show_test" => "test_templates#show_test"
+  get "test_templates/destroy" => "test_templates#destroy"
   get "users/add" => "users#add"
   get "test_taker/show_test" => "test_taker#show_test"
   get "test_results/show_test" => "test_results#show_test"
   match "test_results/score" => "test_results#score", via: [:get, :post]
+  
+  delete "users/:id" => "users#destroy"
+  delete "users" => "users#destroy"
   
   resources :users, :instructors, :courses, :answer_records, :test_results, :test_templates, :students
   

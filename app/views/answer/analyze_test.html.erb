@@ -1,6 +1,7 @@
 <h1>Test Analysis</h1>
 <h3><%= @test.name %></h3>
 <% n = @test_problems.length %>
+Horizontal rows are individual tests. Answers are decoded answers so A represents the correct answer. Representative problems are shown below in the Problem key section. Those problems are shown with decoded answers.
 <table>
 	<tr><td></td><th colspan = 5>Problem</th></tr>
 	<tr>
@@ -14,13 +15,26 @@
 			<% total = 0 %>
 			<% @frequency[t].each {|f| total += 1 if f.decoded_answer == "A" } %>
 			<td><%= (100.0*total/n).round %>%</td>
-			<% @frequency[t].each do |f| %>
-				<td><%= f.decoded_answer %></td>
+			<% @test_problems.each do |p| %>
+				<% if @hist[t][p].nil? %>
+					<td></td>
+				<% else %>
+					<td><%= @hist[t][p] %></td>
+				<% end %>
 			<% end %>
 		</tr>
 	<% end %>
+	<tr><td>% correct</td>
+		<% @test_problems.each do |p| %>
+			<% if @count[p] > 0 %>			
+				<td><%= "#{100*@total[p]/@count[p]}" %></td>				
+			<% else %>
+				<td><%= 0 %></td>
+			<% end %>
+		<% end %>
+	</tr>
 </table>
-<h3>Key:</h3>
+<h3>Problem key:</h3>
 <% i = 0 %>
 <TABLE >
 <% @test_problems.each do |p| %>

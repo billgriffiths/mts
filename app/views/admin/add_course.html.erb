@@ -1,4 +1,4 @@
-<h1>Add Class</h1>
+<h1>New Class</h1>
 
 <div class="user-form">
 	<%= form_for(@course) do |f| %>
@@ -29,7 +29,7 @@
 			<% instructors = Instructor.all #find(:all, :order => "last_name, first_name") %>
 			<%= f.select(:instructor, options_from_collection_for_select(instructors, "id", "whole_name")) %>
 		</p>
-		<%= f.submit "Add Class" %>
+		<%= f.submit "Add New Class" %>
 	</fieldset>
 	<% end %>
 </div>

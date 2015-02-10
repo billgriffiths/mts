@@ -6,6 +6,8 @@
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>AdminController: <%= controller.action_name %></title>
   <%= stylesheet_link_tag 'scaffold', 'MRC' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
 </head>
 <body id="admin">
   <div id="banner">
@@ -47,12 +49,12 @@
 			<li>
 	        <%= link_to "Users", :controller => 'users', :action => 'index' %>
 	        </li><li>
-	        <%= link_to "Add instructor",   :controller => 'instructors', :action => 'new' %>
+	        <%= link_to "New instructor",   :controller => 'instructors', :action => 'new' %>
 	       	</li><li>
-	        <%= link_to "Add class",   :controller => 'admin', :action => 'add_course' %>
+	        <%= link_to "New class",   :controller => 'admin', :action => 'add_course' %>
 	        </li>
 			<li>
-	        <%= link_to "Add students",   :controller => 'admin', :action => 'add_students' %>
+	        <%= link_to "New students",   :controller => 'admin', :action => 'add_students' %>
 	        </li>
 		<% end %>
 		<p>

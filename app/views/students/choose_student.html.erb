@@ -1,13 +1,4 @@
 <h1>Choose Student</h1>
-
-<p>First letter of last name</p>
-
-<% l = "A" %>
-<% 26.times do %>
-	<%= link_to ("#{l}"), {:action => 'choose_student', :letter => l}, :method => :post %>
-	<% l = l.succ %>
-<% end %>
-<p>
 <div class="user-form">
 	
 	<fieldset>

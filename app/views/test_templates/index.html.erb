@@ -18,7 +18,7 @@
  	    <td><%= test_template.description%></td>
         <td><%= link_to 'Show', controller: "test_templates", action: "show_test", id: test_template  %></td>
         <td><%= link_to 'Edit', controller: "test_templates", action: "edit", id: test_template %></td>
-        <td><%= link_to 'Destroy', controller: "test_templates", action: "destroy", id: test_template, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', test_template, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
