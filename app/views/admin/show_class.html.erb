@@ -39,7 +39,7 @@
 		<td><%=h "#{s.last_name}, #{s.first_name}, #{s.student_number}" %></td>
         <td><%= link_to 'Show', {:controller => "students", :action => :show_record, :id => s, :course => @course}, :method => :post %></td>
         <td><%= link_to 'Edit', edit_student_path(s) %></td>
-        <td><%= link_to 'Remove', s, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Remove', :controller => "courses", :action => "remove_student", student: s, course: @course, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 	  </tr>
 	<% end %>
   </tbody>

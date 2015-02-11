@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   get "test_taker/show_test" => "test_taker#show_test"
   get "test_results/show_test" => "test_results#show_test"
   match "test_results/score" => "test_results#score", via: [:get, :post]
+  match "courses/remove_student" => "courses#remove_student", via: [:get, :post]
   
   delete "users/:id" => "users#destroy"
   delete "users" => "users#destroy"

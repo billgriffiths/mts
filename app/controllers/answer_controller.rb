@@ -30,9 +30,13 @@ class AnswerController < ApplicationController
   def analyze_test
     require 'set'
     @test = TestTemplate.find(params[:test])
-#    @temp = @test.answer_records
     @test_problems = (@test.answer_records.collect {|r| r.problem}).uniq.sort
-    @test_result_ids = (@test.answer_records.collect {|r| r.test_result_id}).uniq.sort {|a,b| TestResult.find(b).score <=> TestResult.find(a).score}
+#    @test_result_ids = (@test.answer_records.collect {|r| r.test_result_id}).uniq.sort {|a,b| TestResult.find(b).score <=> TestResult.find(a).score}
+    @test_result_ids = (@test.answer_records.collect {|r| r.test_result_id}).uniq
+    # @test_result_ids.sort_by do |r|
+    #   TestResult.find(r).score 
+    # end
+    @test_result_ids = @test_result_ids.sort {|a,b| TestResult.find(b).score <=> TestResult.find(a).score}
     @frequency = {}
     @hist = []
     @total = {}
@@ -45,7 +49,6 @@ class AnswerController < ApplicationController
       @frequency[id] = []
       @hist[id] = {}
       @test.answer_records.each {|a| @frequency[id] << a if a.test_result_id == id}
-      @frequency[id].sort! {|a,b| a.problem <=> b.problem}
       @frequency[id].each do |ans_rec|
         @hist[id][ans_rec.problem] = ans_rec.decoded_answer
         @count[ans_rec.problem] += 1

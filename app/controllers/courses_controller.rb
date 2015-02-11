@@ -49,6 +49,18 @@ class CoursesController < ApplicationController
     @course.destroy
       redirect_to courses_url, notice: 'Course was successfully destroyed.' 
   end
+  
+  def remove_test
+    @course = Course.find(params[:course])
+    @course.tests.delete(params[:test])
+  end
+
+  def remove_student
+    @student = Student.find(params[:student])
+    @course = Course.find(params[:course])
+    @course.students.delete(@student)
+    redirect_to(:controller => 'admin', :action => 'show_class')
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

@@ -1,6 +1,5 @@
 <h1>Upload Test</h1>
 
-<h2>Use FireFox to do this upload</h2>
 <p>Test names are unique. If a test is uploaded with the same name as a current test a new version of the test is saved. If the test name is different from any current test the test is saved as a new test.</p>
 
 
@@ -17,11 +16,12 @@
     </div>
   <% end %>
   <% end %>
-<%=params%><br/>
 
 <%=@contents%>
 
+<div class="user-form">
 <fieldset>
+	<legend>Choose test</legend>
 	<%= form_tag({action: :upload}, multipart: true) do %>
 	<p>
 		<label for="name"> Name:</label>
@@ -38,3 +38,4 @@
 	<%= submit_tag "Upload file", :class => "submit" %>
 	<% end %>
 </fieldset>
+</div>
